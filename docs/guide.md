@@ -79,6 +79,12 @@ Opérateurs `eq`, `ne`, `lt`, `lte`, `gt`, `gte`, `in`, `exists`, groupes
 rend les messages du plus récent au plus ancien, page par page. Le détail est
 dans la [spécification](design/2026-09-14-filtres-metadata-design.md).
 
+`GET /v1/conversations?workspace_id=ws1&requester_key=agent:village&prefix=nine|`
+rend les conversations lisibles dont l'identifiant commence par le préfixe,
+littéral, dans l'ordre des identifiants, avec `limit` (100 par défaut, au plus
+500) et `cursor`. Un client qui range ses conversations sous des identifiants
+structurés y retrouve celles d'un même propriétaire.
+
 Le filtre choisit les ancres, pas le contexte : avec `expand_before` ou
 `expand_after` non nuls, un extrait peut contenir des voisins qui ne le
 satisfont pas.

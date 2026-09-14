@@ -177,7 +177,8 @@ func run(configPath string, runAPI, runWorkers bool) error {
 		// avec celle qui sert.
 		srv := api.NewServer(cfg, clients, ingester, ingester, finder, convs, ops).
 			WithACL(aclRepo, convs).
-			WithLister(searchRepo)
+			WithLister(searchRepo).
+			WithConversationLister(convs)
 		wg.Add(1)
 		go func() {
 			defer wg.Done()

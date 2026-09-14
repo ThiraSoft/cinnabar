@@ -30,6 +30,13 @@ type Lister interface {
 	ListMessages(ctx context.Context, q memory.ListQuery) ([]memory.Message, error)
 }
 
+// ConversationLister porte le listage des conversations
+// (GET /v1/conversations), sous la règle d'accès de la recherche.
+type ConversationLister interface {
+	List(ctx context.Context, workspaceID, requesterKey, prefix, after string,
+		limit int) ([]memory.ConversationSummary, error)
+}
+
 type Resolver interface {
 	Resolve(ctx context.Context, token string) (*memory.Principal, error)
 }
@@ -102,6 +109,7 @@ type Server struct {
 	acl         ACLStore
 	convDeleter ConversationDeleter
 	lister      Lister
+	convLister  ConversationLister
 	http        *http.Server
 
 	// mu protège listener, posé par ListenAndServe et lu par Addr depuis un
@@ -142,6 +150,13 @@ func (s *Server) WithACL(acl ACLStore, del ConversationDeleter) *Server {
 	return s
 }
 
+// WithConversationLister câble le listage des conversations. Optionnel comme
+// WithLister: nil laisse la route répondre 501.
+func (s *Server) WithConversationLister(l ConversationLister) *Server {
+	s.convLister = l
+	return s
+}
+
 // WithLister câble le listage des messages. Optionnel comme WithACL, et pour
 // la même raison: nil laisse la route répondre 501.
 func (s *Server) WithLister(l Lister) *Server {
@@ -158,6 +173,7 @@ func (s *Server) Handler() http.Handler {
 	authed.HandleFunc("PATCH /v1/messages/{message_id}", s.handlePatchMessage)
 	authed.HandleFunc("DELETE /v1/messages/{message_id}", s.handleDeleteMessage)
 	authed.HandleFunc("POST /v1/conversations", s.handlePostConversation)
+	authed.HandleFunc("GET /v1/conversations", s.handleListConversations)
 	authed.HandleFunc("DELETE /v1/conversations/{conversation_id}", s.handleDeleteConversation)
 	authed.HandleFunc("POST /v1/memories/search", s.handleSearch)
 	authed.HandleFunc("POST /v1/memories/{memory_unit_id}/acl", s.handleGrantACL)

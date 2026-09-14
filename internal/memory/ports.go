@@ -268,3 +268,11 @@ type ConversationContext struct {
 	Scope        string
 	Participants []string
 }
+
+// ConversationSummary est une conversation telle que la rend le listage:
+// son identifiant, son scope et sa dernière mise à jour.
+type ConversationSummary struct {
+	ConversationID string
+	Scope          string
+	UpdatedAt      time.Time
+}

@@ -86,6 +86,7 @@ curl -s -X POST localhost:8080/v1/memories/search \
 | `POST` | `/v1/messages/list` | Lister les messages lisibles, filtrés |
 | `PATCH` | `/v1/messages/{id}` | Modifier un message |
 | `DELETE` | `/v1/messages/{id}` | Supprimer un message |
+| `GET` | `/v1/conversations` | Lister les conversations lisibles, par préfixe |
 | `POST` | `/v1/conversations` | Déclarer une conversation et son scope |
 | `DELETE` | `/v1/conversations/{id}` | Supprimer une conversation |
 | `POST` | `/v1/memories/search` | Rechercher des souvenirs |

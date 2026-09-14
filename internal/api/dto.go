@@ -100,6 +100,17 @@ type listMessagesResponse struct {
 	NextCursor string             `json:"next_cursor,omitempty"`
 }
 
+type conversationDTO struct {
+	ConversationID string    `json:"conversation_id"`
+	Scope          string    `json:"scope"`
+	UpdatedAt      time.Time `json:"updated_at"`
+}
+
+type listConversationsResponse struct {
+	Conversations []conversationDTO `json:"conversations"`
+	NextCursor    string            `json:"next_cursor,omitempty"`
+}
+
 type memoryDTO struct {
 	MemoryID         string             `json:"memory_id"`
 	ConversationID   string             `json:"conversation_id"`
