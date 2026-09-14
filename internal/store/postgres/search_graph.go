@@ -254,7 +254,7 @@ source_rows AS (
 		se.display_name AS subject,
 		COALESCE(te.display_name, f.target_literal) AS object,
 		mu.memory_unit_id,
-		m.message_id, m.conversation_id,
+		m.message_id, m.conversation_id, m.metadata,
 		COALESCE(mu.start_sequence, m.sequence_number) AS start_sequence,
 		COALESCE(mu.end_sequence, m.sequence_number)   AS end_sequence,
 		m.sequence_number,
@@ -326,7 +326,7 @@ SELECT
 	END AS valid_until,
 	sr.subject, sr.object, sr.memory_unit_id,
 	sr.message_id, sr.conversation_id,
-	sr.start_sequence, sr.end_sequence, sr.access_reason
+	sr.start_sequence, sr.end_sequence, sr.access_reason, sr.metadata
 FROM source_rows sr
 WHERE sr.source_rank <= $8
 -- L'ordre entrelace les profondeurs au lieu de les empiler: on prend le
@@ -416,24 +416,29 @@ func (r *SearchRepo) SearchGraph(ctx context.Context,
 			fact       memory.GraphFact
 			unitID     *uuid.UUID
 			cand       memory.Candidate
+			metadata   []byte
 		)
 		if err := rows.Scan(&relationID, &depth, &fact.Predicate, &fact.Confidence,
 			&fact.ObservedAt, &fact.ValidFrom, &fact.ValidUntil,
 			&fact.Subject, &fact.Object, &unitID,
 			&cand.AnchorMessageID, &cand.ConversationID,
-			&cand.StartSequence, &cand.EndSequence, &cand.AccessReason); err != nil {
+			&cand.StartSequence, &cand.EndSequence, &cand.AccessReason, &metadata); err != nil {
 			return memory.GraphResult{}, fmt.Errorf("graph search: scan: %w", err)
 		}
 
 		// Un fait par relation, avec la liste de ses sources lisibles. Une
 		// source non lisible n'est jamais arrivée jusqu'ici: le SQL l'a
 		// écartée.
+		source := memory.FactSource{MessageID: cand.AnchorMessageID,
+			ConversationID: cand.ConversationID, Metadata: metadata}
 		if i, ok := factIndex[relationID]; ok {
 			out.Facts[i].SourceMessageIDs = append(
 				out.Facts[i].SourceMessageIDs, cand.AnchorMessageID)
+			out.Facts[i].Sources = append(out.Facts[i].Sources, source)
 		} else {
 			fact.RelationID = relationID
 			fact.SourceMessageIDs = []uuid.UUID{cand.AnchorMessageID}
+			fact.Sources = []memory.FactSource{source}
 			factIndex[relationID] = len(out.Facts)
 			out.Facts = append(out.Facts, fact)
 		}

@@ -4,9 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 
+	"github.com/ThiraSoft/cinnabar/internal/graph"
 	"github.com/ThiraSoft/cinnabar/internal/memory"
 )
 
@@ -193,5 +195,89 @@ func TestMessageMetadataRoundTrip(t *testing.T) {
 	var meta map[string]int
 	if err := json.Unmarshal(got.Metadata, &meta); err != nil || meta["importance"] != 8 {
 		t.Errorf("metadata = %s, %v", got.Metadata, err)
+	}
+}
+
+// Un fait rend chacune de ses sources lisibles avec sa conversation et ses
+// metadata: c'est ce qui permet au client de peser un fait selon ce que dit
+// chaque message qui l'a fait naître.
+func TestSearchGraphRendLesMetadataDeChaqueSource(t *testing.T) {
+	pool := newTestPool(t)
+	ctx := context.Background()
+	msgs, repo, gr := NewMessageRepo(pool), NewSearchRepo(pool), NewGraphRepo(pool)
+
+	add := func(conv, meta string) memory.Message {
+		t.Helper()
+		in := appendInput(conv, "agent:village", "assistant", "Ricardo doit dix pièces", "")
+		in.Metadata = json.RawMessage(meta)
+		res, err := msgs.Append(ctx, in, 0, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return res.Message
+	}
+	crue := add("nine|player:ricardo", `{"belief":"oui"}`)
+	doute := add("halvig|player:ricardo", `{"belief":"doute"}`)
+
+	src := graph.EntityID("ws1", "person:ricardo")
+	ent := memory.GraphEntity{EntityID: src, WorkspaceID: "ws1",
+		CanonicalKey: "person:ricardo", EntityType: "person",
+		DisplayName: "Ricardo", Resolved: true}
+	dk := graph.DedupKey(src, "doit", nil, "dix pièces", nil)
+	for _, m := range []memory.Message{crue, doute} {
+		if err := gr.Apply(ctx, memory.GraphExtraction{
+			WorkspaceID: "ws1", ConversationID: m.ConversationID,
+			Entities: []memory.GraphEntity{ent},
+			Relations: []memory.GraphRelation{{
+				RelationID: graph.RelationID("ws1", dk), WorkspaceID: "ws1",
+				SourceEntityID: src, RelationType: "doit", TargetLiteral: "dix pièces",
+				ObservedAt: time.Now().UTC(), Confidence: 1, Scope: "participants",
+				DedupKey: dk, ConversationID: m.ConversationID,
+				SourceMessageIDs: []uuid.UUID{m.MessageID},
+			}},
+		}, nil); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	got, err := repo.SearchGraph(ctx, memory.GraphQuery{
+		CandidateQuery: memory.CandidateQuery{
+			WorkspaceID: "ws1", RequesterKey: "agent:village", Limit: 20},
+		Subjects: []string{"user:ricardo"}, Text: questionNeutre, MaxHops: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Facts) != 1 || len(got.Facts[0].Sources) != 2 {
+		t.Fatalf("faits = %+v", got.Facts)
+	}
+	byConv := map[string]string{}
+	for _, s := range got.Facts[0].Sources {
+		var meta map[string]string
+		if err := json.Unmarshal(s.Metadata, &meta); err != nil {
+			t.Fatal(err)
+		}
+		byConv[s.ConversationID] = meta["belief"]
+		if s.MessageID != crue.MessageID && s.MessageID != doute.MessageID {
+			t.Errorf("source inconnue %s", s.MessageID)
+		}
+	}
+	if byConv["nine|player:ricardo"] != "oui" || byConv["halvig|player:ricardo"] != "doute" {
+		t.Errorf("sources = %v", byConv)
+	}
+
+	// Restreint à une conversation, le fait ne rend que la source qui s'y trouve.
+	got, err = repo.SearchGraph(ctx, memory.GraphQuery{
+		CandidateQuery: memory.CandidateQuery{
+			WorkspaceID: "ws1", RequesterKey: "agent:village", Limit: 20,
+			ConversationIDs: []string{"halvig|player:ricardo"}},
+		Subjects: []string{"user:ricardo"}, Text: questionNeutre, MaxHops: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Facts) != 1 || len(got.Facts[0].Sources) != 1 ||
+		got.Facts[0].Sources[0].ConversationID != "halvig|player:ricardo" {
+		t.Errorf("fait restreint = %+v", got.Facts)
 	}
 }

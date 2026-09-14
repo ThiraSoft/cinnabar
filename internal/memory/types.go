@@ -212,6 +212,17 @@ type GraphFact struct {
 	// SourceMessageIDs ne contient que les messages sources que le
 	// demandeur a le droit de lire: c'est ce qui a fait ressortir le fait.
 	SourceMessageIDs []uuid.UUID
+	// Sources détaille les mêmes messages, dans le même ordre, avec leur
+	// conversation et leurs metadata: un client pèse un fait selon ce que
+	// dit chaque message qui l'a fait naître.
+	Sources []FactSource
+}
+
+// FactSource est un message source lisible d'un fait.
+type FactSource struct {
+	MessageID      uuid.UUID
+	ConversationID string
+	Metadata       json.RawMessage
 }
 
 // SearchResponse est le résultat d'une recherche hybride.

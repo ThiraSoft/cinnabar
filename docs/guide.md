@@ -85,6 +85,11 @@ littéral, dans l'ordre des identifiants, avec `limit` (100 par défaut, au plus
 500) et `cursor`. Un client qui range ses conversations sous des identifiants
 structurés y retrouve celles d'un même propriétaire.
 
+Chaque fait de `graph_facts` détaille ses sources lisibles dans `sources`,
+avec pour chacune `message_id`, `conversation_id` et `metadata`. Un fait
+restreint par `conversation_ids` ou `metadata_filter` ne rend que les sources
+qui y satisfont, au plus trois par fait.
+
 Le filtre choisit les ancres, pas le contexte : avec `expand_before` ou
 `expand_after` non nuls, un extrait peut contenir des voisins qui ne le
 satisfont pas.

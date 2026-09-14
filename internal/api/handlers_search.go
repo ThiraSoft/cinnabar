@@ -219,6 +219,12 @@ func (s *Server) handleSearch(w http.ResponseWriter, r *http.Request) {
 		for _, id := range f.SourceMessageIDs {
 			dto.SourceMessageIDs = append(dto.SourceMessageIDs, id.String())
 		}
+		for _, src := range f.Sources {
+			dto.Sources = append(dto.Sources, factSourceDTO{
+				MessageID: src.MessageID.String(), ConversationID: src.ConversationID,
+				Metadata: src.Metadata,
+			})
+		}
 		out.GraphFacts = append(out.GraphFacts, dto)
 	}
 	if resp.Debug != nil {

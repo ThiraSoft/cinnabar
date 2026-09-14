@@ -131,14 +131,21 @@ type memoryDTO struct {
 // une dérivation, jamais un message réel, d'où sa clé JSON distincte
 // (graph_facts) dans searchResponse.
 type graphFactDTO struct {
-	Subject          string   `json:"subject"`
-	Predicate        string   `json:"predicate"`
-	Object           string   `json:"object"`
-	ObservedAt       string   `json:"observed_at"`
-	ValidFrom        *string  `json:"valid_from,omitempty"`
-	ValidUntil       *string  `json:"valid_until,omitempty"`
-	Confidence       float64  `json:"confidence"`
-	SourceMessageIDs []string `json:"source_message_ids"`
+	Subject          string          `json:"subject"`
+	Predicate        string          `json:"predicate"`
+	Object           string          `json:"object"`
+	ObservedAt       string          `json:"observed_at"`
+	ValidFrom        *string         `json:"valid_from,omitempty"`
+	ValidUntil       *string         `json:"valid_until,omitempty"`
+	Confidence       float64         `json:"confidence"`
+	SourceMessageIDs []string        `json:"source_message_ids"`
+	Sources          []factSourceDTO `json:"sources"`
+}
+
+type factSourceDTO struct {
+	MessageID      string          `json:"message_id"`
+	ConversationID string          `json:"conversation_id"`
+	Metadata       json.RawMessage `json:"metadata,omitempty"`
 }
 
 type searchDebugDTO struct {

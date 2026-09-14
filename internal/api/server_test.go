@@ -521,6 +521,8 @@ func TestSearchExposesGraphFacts(t *testing.T) {
 		GraphFacts: []memory.GraphFact{{
 			Subject: "Tomate", Predicate: "has_observed_state", Object: "verte",
 			ObservedAt: observedAt, Confidence: 0.9,
+			Sources: []memory.FactSource{{MessageID: uuid.MustParse("7d1c2a4e-0000-4000-8000-000000000001"),
+				ConversationID: "conv_paul", Metadata: json.RawMessage(`{"belief":"doute"}`)}},
 		}},
 	}
 
@@ -538,6 +540,11 @@ func TestSearchExposesGraphFacts(t *testing.T) {
 			Subject    string `json:"subject"`
 			Predicate  string `json:"predicate"`
 			ObservedAt string `json:"observed_at"`
+			Sources    []struct {
+				MessageID      string          `json:"message_id"`
+				ConversationID string          `json:"conversation_id"`
+				Metadata       json.RawMessage `json:"metadata"`
+			} `json:"sources"`
 		} `json:"graph_facts"`
 	}
 	if err := json.Unmarshal(rec.Body.Bytes(), &out); err != nil {
@@ -548,6 +555,10 @@ func TestSearchExposesGraphFacts(t *testing.T) {
 	}
 	if out.GraphFacts[0].Subject != "Tomate" {
 		t.Errorf("subject = %q", out.GraphFacts[0].Subject)
+	}
+	if src := out.GraphFacts[0].Sources; len(src) != 1 || src[0].ConversationID != "conv_paul" ||
+		src[0].MessageID != "7d1c2a4e-0000-4000-8000-000000000001" || string(src[0].Metadata) != `{"belief":"doute"}` {
+		t.Errorf("sources = %+v", src)
 	}
 	if out.GraphFacts[0].ObservedAt != observedAt.Format(time.RFC3339) {
 		t.Errorf("observed_at = %q, want %q",
