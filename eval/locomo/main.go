@@ -138,7 +138,11 @@ func run(dataPath, configPath, outPath string, nSamples, workers int, keep bool,
 	if err := postgres.Migrate(ctx, pool); err != nil {
 		return err
 	}
-	embedder := llm.NewEmbedder(cfg.Embedding)
+	embedder, err := llm.OpenEmbedder(cfg.Embedding)
+	if err != nil {
+		return err
+	}
+	defer embedder.Close()
 	if err := postgres.VerifyEmbeddingDimension(ctx, pool, embedder, cfg.Embedding.Dimensions); err != nil {
 		return err
 	}
@@ -309,7 +313,10 @@ func run(dataPath, configPath, outPath string, nSamples, workers int, keep bool,
 		}
 		finder := memory.NewSearcher(&vcfg, msgs, cache, searchRepo, searchRepo, nil)
 
-		type catStat struct{ n, hitAny, hitAll int; frac float64 }
+		type catStat struct {
+			n, hitAny, hitAll int
+			frac              float64
+		}
 		cats := map[int]*catStat{}
 		var anchorFrac, ctxFrac float64
 		var anyHit, empty, tokens int

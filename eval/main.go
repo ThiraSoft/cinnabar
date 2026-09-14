@@ -120,7 +120,11 @@ func run(datasetPath, configPath string, topK int, keep, audit bool) error {
 		return err
 	}
 
-	embedder := llm.NewEmbedder(cfg.Embedding)
+	embedder, err := llm.OpenEmbedder(cfg.Embedding)
+	if err != nil {
+		return err
+	}
+	defer embedder.Close()
 	if err := postgres.VerifyEmbeddingDimension(ctx, pool, embedder,
 		cfg.Embedding.Dimensions); err != nil {
 		return err

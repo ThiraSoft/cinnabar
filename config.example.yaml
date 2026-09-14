@@ -29,6 +29,13 @@ database:
   max_conn_lifetime: 30m
 
 embedding:
+  # "http" appelle base_url (Ollama, golem-server, tout endpoint
+  # OpenAI-compatible). "golem" charge model_path dans le processus et encode
+  # sans requête, sur device "vulkan" (défaut) ou "cpu". Seul nomic-embed-text-v2-moe
+  # (GGUF f16 ou Q8_0) est pris en charge par golem.
+  provider: http
+  # model_path: "/models/nomic-embed-text-v2-moe.f16.gguf"
+  # device: vulkan
   base_url: "http://localhost:11434/v1"
   model: "nomic-embed-text-v2-moe"
   dimensions: 768

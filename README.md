@@ -35,7 +35,9 @@ les identités entre tenants.
 ## Démarrage rapide
 
 Prérequis : Go 1.25, Docker, et un serveur d'embedding compatible OpenAI
-(Ollama avec `nomic-embed-text-v2-moe` par défaut).
+(Ollama avec `nomic-embed-text-v2-moe` par défaut). Sans serveur, mettre
+`embedding.provider: golem` et `model_path` sur le GGUF du modèle : golem
+l'exécute dans le processus, sur Vulkan par défaut ou CPU (`device: cpu`).
 
 ```bash
 make up                      # PostgreSQL + pgvector sur le port 5433
@@ -101,7 +103,7 @@ ignoré par git. Les blocs principaux :
 
 | Bloc | Contenu |
 |---|---|
-| `embedding` | Modèle et endpoint d'embedding |
+| `embedding` | Modèle d'embedding, par endpoint HTTP ou en local avec golem |
 | `retrieval` | Stratégies, fusion, seuils de non-réponse |
 | `graph` / `extraction` | Graphe de connaissances (désactivé par défaut) |
 | `rerank` | Réordonnancement par modèle (désactivé par défaut) |

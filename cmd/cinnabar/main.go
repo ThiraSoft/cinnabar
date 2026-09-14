@@ -128,7 +128,11 @@ func run(configPath string, runAPI, runWorkers bool) error {
 		return err
 	}
 
-	embedder := llm.NewEmbedder(cfg.Embedding)
+	embedder, err := llm.OpenEmbedder(cfg.Embedding)
+	if err != nil {
+		return err
+	}
+	defer embedder.Close()
 	// Un écart entre le modèle, la configuration et la colonne VECTOR(n)
 	// doit empêcher le démarrage: sinon il ne se révèle qu'à la première
 	// écriture, sous la forme d'une erreur Postgres obscure. Une sonde qui

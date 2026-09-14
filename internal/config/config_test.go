@@ -232,3 +232,31 @@ func TestConfigGraphRejectsNegativeContextMessages(t *testing.T) {
 		t.Error("want une erreur sur context_messages négatif")
 	}
 }
+
+// TestConfigEmbeddingGolem: le mode golem exige un model_path et un device
+// connu, et un fournisseur inconnu est refusé au démarrage.
+func TestConfigEmbeddingGolem(t *testing.T) {
+	cases := []struct {
+		name, yaml string
+		ok         bool
+	}{
+		{"http par défaut", "", true},
+		{"golem sans chemin", "  provider: golem\n", false},
+		{"golem cpu", "  provider: golem\n  model_path: \"/m.gguf\"\n", true},
+		{"golem cpu explicite", "  provider: golem\n  model_path: \"/m.gguf\"\n  device: cpu\n", true},
+		{"golem device inconnu", "  provider: golem\n  model_path: \"/m.gguf\"\n  device: cuda\n", false},
+		{"fournisseur inconnu", "  provider: openai\n", false},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			path := writeTemp(t, "database:\n  dsn: \"x\"\nembedding:\n  dimensions: 768\n"+c.yaml)
+			_, err := Load(path)
+			if c.ok && err != nil {
+				t.Fatalf("rejeté à tort: %v", err)
+			}
+			if !c.ok && err == nil {
+				t.Fatal("want une erreur")
+			}
+		})
+	}
+}

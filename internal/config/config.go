@@ -38,7 +38,20 @@ type Database struct {
 	MaxConnLifetime time.Duration `yaml:"max_conn_lifetime"`
 }
 
+// Fournisseurs et devices d'embedding reconnus.
+const (
+	EmbeddingProviderHTTP  = "http"
+	EmbeddingProviderGolem = "golem"
+	EmbeddingDeviceCPU     = "cpu"
+	EmbeddingDeviceVulkan  = "vulkan"
+)
+
 type Embedding struct {
+	// Provider vaut "http" (endpoint OpenAI-compatible, base_url) ou "golem"
+	// (inférence dans le processus, model_path et device).
+	Provider       string        `yaml:"provider"`
+	ModelPath      string        `yaml:"model_path"`
+	Device         string        `yaml:"device"`
 	BaseURL        string        `yaml:"base_url"`
 	Model          string        `yaml:"model"`
 	Dimensions     int           `yaml:"dimensions"`
@@ -217,6 +230,7 @@ func defaults() Config {
 		},
 		Database: Database{MaxConns: 10, MaxConnLifetime: 30 * time.Minute},
 		Embedding: Embedding{
+			Provider: EmbeddingProviderHTTP, Device: EmbeddingDeviceVulkan,
 			BaseURL: "http://localhost:11434/v1", Model: "nomic-embed-text-v2-moe",
 			Dimensions: 768, DocumentPrefix: "search_document: ",
 			QueryPrefix: "search_query: ", Normalize: true, Timeout: 30 * time.Second,
@@ -379,6 +393,18 @@ func (c *Config) validate() error {
 	}
 	if c.Embedding.Dimensions <= 0 {
 		return fmt.Errorf("embedding.dimensions must be positive")
+	}
+	switch c.Embedding.Provider {
+	case EmbeddingProviderHTTP:
+	case EmbeddingProviderGolem:
+		if c.Embedding.ModelPath == "" {
+			return fmt.Errorf("embedding.model_path is required when embedding.provider is golem")
+		}
+		if d := c.Embedding.Device; d != EmbeddingDeviceCPU && d != EmbeddingDeviceVulkan {
+			return fmt.Errorf("embedding.device must be cpu or vulkan, got %q", d)
+		}
+	default:
+		return fmt.Errorf("embedding.provider must be http or golem, got %q", c.Embedding.Provider)
 	}
 	if c.Indexing.CharsPerToken <= 0 {
 		return fmt.Errorf("indexing.chars_per_token must be positive")
