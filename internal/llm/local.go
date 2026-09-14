@@ -92,23 +92,20 @@ func (e *LocalEmbedder) EmbedQuery(ctx context.Context, text string) ([]float32,
 	return vecs[0], nil
 }
 
-// embed ne peut pas interrompre une passe en cours: golem n'expose pas
-// d'annulation. Le contexte n'est consulté qu'avant de lancer la passe, qui
-// se compte en millisecondes pour un lot de messages.
+// embed abandonne l'attente du modèle quand le contexte se termine, et un lot
+// de plusieurs passes s'arrête entre deux d'entre elles. Une passe lancée va
+// à son terme: elle se compte en millisecondes.
 func (e *LocalEmbedder) embed(ctx context.Context, prefix string,
 	inputs []string) ([][]float32, error) {
 
 	if len(inputs) == 0 {
 		return nil, nil
 	}
-	if err := ctx.Err(); err != nil {
-		return nil, fmt.Errorf("embed: %w", err)
-	}
 	ids := make([][]int32, len(inputs))
 	for i, in := range inputs {
 		ids[i] = e.m.Tokenize(prefix + in)
 	}
-	vecs, err := e.m.Embed(ids)
+	vecs, err := e.m.EmbedContext(ctx, ids)
 	if err != nil {
 		return nil, fmt.Errorf("embed: %w", err)
 	}
