@@ -67,6 +67,10 @@ type Extraction struct {
 	APIKey  string            `yaml:"api_key"`
 	Headers map[string]string `yaml:"headers"`
 	Timeout time.Duration     `yaml:"timeout"`
+	// MaxTokens borne la réponse du modèle. Un serveur qui applique son
+	// propre défaut (1024 jetons chez golem) coupe une extraction indentée
+	// au milieu de son JSON. Zéro laisse le serveur décider.
+	MaxTokens int `yaml:"max_tokens"`
 }
 
 type Indexing struct {
@@ -235,7 +239,7 @@ func defaults() Config {
 			Dimensions: 768, DocumentPrefix: "search_document: ",
 			QueryPrefix: "search_query: ", Normalize: true, Timeout: 30 * time.Second,
 		},
-		Extraction: Extraction{Timeout: 120 * time.Second},
+		Extraction: Extraction{Timeout: 120 * time.Second, MaxTokens: 4096},
 		Indexing: Indexing{
 			Strategy: "contextualized_message", PreviousMessages: 2,
 			MaxChars: 1600, CharsPerToken: 4,

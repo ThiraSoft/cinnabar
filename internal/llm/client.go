@@ -28,6 +28,7 @@ type Client struct {
 	queryPrefix string
 	normalize   bool
 	http        *http.Client
+	maxTokens   int
 }
 
 // NewEmbedder construit un client dédié aux embeddings (Ollama en pratique).
@@ -51,6 +52,8 @@ func NewChat(cfg config.Extraction) *Client {
 		apiKey:  cfg.APIKey,
 		headers: cfg.Headers,
 		http:    &http.Client{Timeout: cfg.Timeout},
+
+		maxTokens: cfg.MaxTokens,
 	}
 }
 
@@ -250,6 +253,9 @@ func (c *Client) Chat(ctx context.Context, r ChatRequest) (string, error) {
 		"model":       c.model,
 		"messages":    msgs,
 		"temperature": r.Temperature,
+	}
+	if c.maxTokens > 0 {
+		body["max_tokens"] = c.maxTokens
 	}
 	if len(r.JSONSchema) > 0 {
 		body["response_format"] = map[string]any{

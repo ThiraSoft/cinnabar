@@ -52,6 +52,9 @@ extraction:
   # headers:
   #   x-custom-header: "valeur"
   timeout: 120s
+  # Borne de la réponse. Sans elle, le défaut du serveur s'applique (1024
+  # jetons chez golem) et peut couper le JSON d'une extraction.
+  max_tokens: 4096
 
 indexing:
   strategy: contextualized_message

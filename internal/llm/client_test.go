@@ -214,3 +214,30 @@ func TestHTTPErrorSurUnCorpsOpaqueNeRendQueSaTaille(t *testing.T) {
 		t.Errorf("l'erreur ne porte pas le code HTTP: %v", err)
 	}
 }
+
+// Un serveur qui applique son propre plafond coupe une extraction au milieu
+// de son JSON: la borne configurée part avec chaque requête, et seulement
+// quand elle est posée.
+func TestChatSendsMaxTokensWhenConfigured(t *testing.T) {
+	var bodies []map[string]any
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var b map[string]any
+		_ = json.NewDecoder(r.Body).Decode(&b)
+		bodies = append(bodies, b)
+		_, _ = w.Write([]byte(`{"choices":[{"message":{"content":"{}"}}]}`))
+	}))
+	defer srv.Close()
+
+	for _, max := range []int{4096, 0} {
+		c := NewChat(config.Extraction{BaseURL: srv.URL, Model: "m", Timeout: 5 * time.Second, MaxTokens: max})
+		if _, err := c.Chat(context.Background(), ChatRequest{User: "u"}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if bodies[0]["max_tokens"] != float64(4096) {
+		t.Errorf("max_tokens = %v, want 4096", bodies[0]["max_tokens"])
+	}
+	if _, ok := bodies[1]["max_tokens"]; ok {
+		t.Error("sans borne configurée, max_tokens ne part pas")
+	}
+}
