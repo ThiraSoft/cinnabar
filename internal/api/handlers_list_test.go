@@ -153,16 +153,33 @@ func TestSearchForwardsRestrictionsAndReturnsMetadata(t *testing.T) {
 
 func TestSearchRefusesBadRestrictions(t *testing.T) {
 	h, _, _, _ := newTestServer(t)
-	many, _ := json.Marshal(make([]string, maxConversationIDs+1))
 	for name, extra := range map[string]string{
-		"filtre invalide":       `"metadata_filter":{"all":[]}`,
-		"champ inconnu":         `"metadata_filter":{"key":"a","op":"eq","vlaue":1}`,
-		"trop de conversations": `"conversation_ids":` + string(many),
+		"filtre invalide": `"metadata_filter":{"all":[]}`,
+		"champ inconnu":   `"metadata_filter":{"key":"a","op":"eq","vlaue":1}`,
 	} {
 		rec := post(h, "/v1/memories/search", "tok",
 			`{"workspace_id":"ws1","requester_key":"agent:village","query":"pomme",`+extra+`}`)
 		if rec.Code != http.StatusBadRequest {
 			t.Errorf("%s: status = %d: %s", name, rec.Code, rec.Body)
 		}
+	}
+}
+
+// Un habitant qui connaît beaucoup de joueurs a autant de conversations: la
+// liste n'a pas d'autre borne que la taille de la requête.
+func TestSearchAcceptsManyConversations(t *testing.T) {
+	h, _, _, find := newTestServer(t)
+	convs := make([]string, 200)
+	for i := range convs {
+		convs[i] = fmt.Sprintf("nine|player:%d", i)
+	}
+	many, _ := json.Marshal(convs)
+	rec := post(h, "/v1/memories/search", "tok",
+		`{"workspace_id":"ws1","requester_key":"agent:village","query":"pomme","conversation_ids":`+string(many)+`}`)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d: %s", rec.Code, rec.Body)
+	}
+	if len(find.got.ConversationIDs) != 200 {
+		t.Errorf("conversations transmises = %d", len(find.got.ConversationIDs))
 	}
 }

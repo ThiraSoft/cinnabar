@@ -35,18 +35,10 @@ const (
 // participants de la conversation courante.
 const maxKnownSubjects = 32
 
-// maxConversationIDs borne conversation_ids, pour la même raison que
-// maxKnownSubjects: la liste part en paramètre d'un prédicat évalué sur
-// chaque ligne candidate.
-const maxConversationIDs = 64
-
 // restrictionError rend le message d'un 400 pour des restrictions de
 // recherche ou de listage mal formées, vide si elles sont valides. Partagée
 // par les deux routes pour qu'elles refusent exactement la même chose.
 func restrictionError(convs []string, filter *memory.MetadataFilter) string {
-	if len(convs) > maxConversationIDs {
-		return fmt.Sprintf("conversation_ids must not exceed %d entries", maxConversationIDs)
-	}
 	for _, c := range convs {
 		if c == "" {
 			return "conversation_ids must not contain empty values"

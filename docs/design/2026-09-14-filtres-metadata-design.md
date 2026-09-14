@@ -19,7 +19,8 @@ ne fait que les comparer.
 `POST /v1/memories/search` accepte deux champs facultatifs :
 
 - `conversation_ids` : liste de conversations. Seules les unités et messages
-  de ces conversations peuvent servir d'ancre. Au plus 64 entrées.
+  de ces conversations peuvent servir d'ancre. Sans borne propre, la taille
+  de la requête limite la liste.
 - `metadata_filter` : une condition sur les metadata du message d'ancrage.
 
 Les deux se cumulent avec la règle d'accès existante, jamais à sa place : un
