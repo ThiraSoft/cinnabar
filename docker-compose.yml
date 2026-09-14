@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: cinnabar
+      POSTGRES_PASSWORD: cinnabar
+      POSTGRES_DB: cinnabar
+    ports:
+      - "5433:5432"
+    volumes:
+      - cinnabar_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cinnabar -d cinnabar"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  # Le service applicatif est derrière le profil "app": `make up` (utilisé
+  # avant les tests d'intégration, qui n'ont besoin que de postgres) ne le
+  # démarre donc pas, ce qui évite d'exiger un config.yaml présent au dépôt
+  # juste pour lancer les tests. Démarrage explicite:
+  # docker compose --profile app up -d --build cinnabar
+  cinnabar:
+    profiles: ["app"]
+    build:
+      context: .
+      args:
+        VERSION: dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_DSN: postgres://cinnabar:cinnabar@postgres:5432/cinnabar?sslmode=disable
+      LLM_API_URL: ${LLM_API_URL}
+      LLM_API_KEY: ${LLM_API_KEY}
+    ports:
+      - "8080:8080"
+    command: ["-config", "/etc/cinnabar/config.yaml"]
+    volumes:
+      - ./config.yaml:/etc/cinnabar/config.yaml:ro
+
+volumes:
+  cinnabar_pgdata:

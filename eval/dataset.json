@@ -1,0 +1,2946 @@
+{
+ "conversations": [
+  {
+   "conversation_id": "eval_jardin",
+   "participants": [
+    "user:paul",
+    "agent:jardinage"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Comment avance ton potager ?"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "tomates_vertes",
+     "content": "Je suis passé près de mes tomates, elles étaient encore vertes."
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "cultivar",
+     "content": "J'ai planté un cultivar Rose de Berne et un Coeur de Boeuf."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_cuisine",
+   "participants": [
+    "user:paul",
+    "agent:cuisine"
+   ],
+   "messages": [
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "aime_tomates",
+     "content": "J'aime beaucoup les tomates, surtout crues en salade."
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "allergie",
+     "content": "Par contre je ne supporte pas les fruits de mer."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_outillage",
+   "participants": [
+    "user:paul",
+    "agent:jardinage"
+   ],
+   "messages": [
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "motoculteur",
+     "content": "J'ai acheté un motoculteur Staub PP2X d'occasion."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_prive",
+   "participants": [
+    "user:alice",
+    "agent:compta"
+   ],
+   "messages": [
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "id": "budget",
+     "content": "Le budget de la campagne est de 45000 euros."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_bricolage",
+   "participants": [
+    "user:paul",
+    "agent:bricolage"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Tu bricoles quoi ce week-end ?"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "perceuse",
+     "content": "Je viens de recevoir en cadeau une perceuse Bosch GSR 18V-60 FC."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_voyage",
+   "participants": [
+    "user:paul",
+    "agent:voyages"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:voyages",
+     "role": "assistant",
+     "content": "Tu as des projets de vacances ?"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "voyage_cevennes",
+     "content": "L'été prochain je pars en randonnée dans les gorges du Tarn avec mon frère."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_animaux",
+   "participants": [
+    "user:paul",
+    "agent:animaux"
+   ],
+   "messages": [
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "chat_nocturne",
+     "content": "Mon chat s'appelle Nocturne, il a six ans et il dort toute la journée."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_musique",
+   "participants": [
+    "user:paul",
+    "agent:musique"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Et le piano, ça avance ?"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "chopin",
+     "content": "Je suis en train d'apprendre la Fantaisie Impromptu de Chopin."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_equipe",
+   "participants": [
+    "user:paul",
+    "agent:rh"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Où en es-tu de ton intégration ?"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "paul_equipe_support",
+     "content": "Je viens de rejoindre l'équipe Support, sous la responsabilité de Claire."
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "equipe_support_site",
+     "content": "L'équipe Support est basée à Lyon Part-Dieu, dans un immeuble récent."
+    }
+   ]
+  },
+  {
+   "conversation_id": "eval_potager_etat",
+   "participants": [
+    "user:paul",
+    "agent:jardinage"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Et le potager, où ça en est ?"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "potager_friche",
+     "content": "Mon potager est en friche depuis le printemps, plus rien n'y pousse."
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "potager_entretenu",
+     "content": "Bonne nouvelle : mon potager est maintenant impeccable, je l'ai complètement retapé le week-end dernier."
+    }
+   ]
+  },
+  {
+   "conversation_id": "a_potager_avril",
+   "participants": [
+    "user:paul",
+    "agent:jardinage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Alors Paul, comment avance le projet du potager cette année ?",
+     "created_at": "2026-04-05T10:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Franchement, il est un peu laissé de côté en ce moment. Avec le travail qui change, j'ai pas trop eu le temps de m'en occuper.",
+     "created_at": "2026-04-05T10:35:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Ça me paraît compréhensible, c'est une période de transition. Vous avez pensé à un calendrier pour reprendre ?",
+     "created_at": "2026-04-05T10:40:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais, bon, honnêtement les deux carrés sont un peu en friche là. Pas mal de mauvaises herbes qui poussent. Je me dis que ça sera pour le mois prochain.",
+     "created_at": "2026-04-05T10:42:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "C'est normal à cette époque. Vous allez remettre les mêmes cultures ?",
+     "created_at": "2026-04-05T10:45:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, tomates, courgettes, basilic. Pareil qu'avant. Mais faut d'abord que je nettoie tout ça correctement.",
+     "created_at": "2026-04-05T10:50:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Bien. Vous allez besoin d'un bon motoculteur pour ça ?",
+     "created_at": "2026-04-05T11:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Peut-être, j'y avais pas pensé mais c'est une bonne idée. Ça me faciliterait vraiment le boulot au lieu de faire à la main.",
+     "created_at": "2026-04-05T11:05:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "À bientôt alors pour faire le point sur l'avancement !",
+     "created_at": "2026-04-05T11:10:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "a_tomates_roseberne",
+   "participants": [
+    "user:paul",
+    "agent:jardinage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Vous aviez parlé de variétés spécifiques pour vos tomates, non ?",
+     "created_at": "2026-04-12T14:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "a_msg_tomates_varietes",
+     "content": "Ah oui ! J'adore la Rose de Berne, c'est une petite tomate très savoureuse. Et puis je cultive aussi du Coeur de Boeuf, c'est plus grosse et charnue.",
+     "created_at": "2026-04-12T14:05:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Excellent choix. La Rose de Berne c'est plutôt pour les salades du coup ?",
+     "created_at": "2026-04-12T14:10:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Exactement. C'est sucré, avec une belle peau fine. Et le Coeur de Boeuf c'est plus pour cuisiner, faire des coulis, ou des salades généreuses.",
+     "created_at": "2026-04-12T14:15:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Vous les semez vous-même ou vous prenez des plants ?",
+     "created_at": "2026-04-12T14:20:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Là j'ai pris des plants chez le pépiniériste de Villeurbanne, parce que j'avais pas beaucoup de temps pour faire les semis. Mais l'année prochaine je veux essayer de les faire de zéro.",
+     "created_at": "2026-04-12T14:25:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Bonne idée. Vous allez noter les dates pour mieux planifier.",
+     "created_at": "2026-04-12T14:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, et puis cette année je vais aussi noter comment ça pousse jour par jour, faire des photos. Ça m'intéresse.",
+     "created_at": "2026-04-12T14:35:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Vous avez encore du basilic ?",
+     "created_at": "2026-04-12T14:40:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, du basilic génois acheté en plants aussi. C'est dingue comment ça pousse vite.",
+     "created_at": "2026-04-12T14:45:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "a_marche_courses",
+   "participants": [
+    "user:paul",
+    "agent:cuisine"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:cuisine",
+     "role": "assistant",
+     "content": "Tu fais tes courses où en ce moment ?",
+     "created_at": "2026-05-01T09:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "a_msg_marche_legumes",
+     "content": "Surtout au marché de Villeurbanne le jeudi, tu trouves des beaux légumes frais. C'est un peu moins cher qu'en supermarché aussi.",
+     "created_at": "2026-05-01T09:05:00Z"
+    },
+    {
+     "author_key": "agent:cuisine",
+     "role": "assistant",
+     "content": "C'est vrai qu'il y a pas mal de petits producteurs là ?",
+     "created_at": "2026-05-01T09:10:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais, il y a un mec qui vend des légumes bio, des herbes, du fromage aussi. Je l'ai pas mal côtoyé. Il me reconnaît maintenant.",
+     "created_at": "2026-05-01T09:15:00Z"
+    },
+    {
+     "author_key": "agent:cuisine",
+     "role": "assistant",
+     "content": "Vous avez des tomates en ce moment ?",
+     "created_at": "2026-05-01T09:20:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "C'est un peu tôt pour des bonnes tomates, mais il en a des petites. Je prends plutôt des carottes, courges, du chou-fleur. Quand juin arrive, là les tomates vont vraiment débarquer.",
+     "created_at": "2026-05-01T09:25:00Z"
+    },
+    {
+     "author_key": "agent:cuisine",
+     "role": "assistant",
+     "content": "Et tes légumes à toi du potager, t'en es où ?",
+     "created_at": "2026-05-01T09:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Là c'est en cours de préparation. Les plants sont en terre depuis quelques semaines mais ils sont encore jeunes. Je dois être patient.",
+     "created_at": "2026-05-01T09:35:00Z"
+    },
+    {
+     "author_key": "agent:cuisine",
+     "role": "assistant",
+     "content": "Dès que tu auras du basilic tu me le dis, je veux faire du pesto !",
+     "created_at": "2026-05-01T09:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "a_motoculteur_achat",
+   "participants": [
+    "user:paul",
+    "agent:bricolage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Ça va l'équipement au potager ?",
+     "created_at": "2026-05-08T15:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais, j'ai enfin trouvé un motoculteur pas trop cher. C'est du d'occasion, mais ça m'a pas coûté un bras.",
+     "created_at": "2026-05-08T15:35:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Chouette ! Où tu l'as trouvé ?",
+     "created_at": "2026-05-08T15:40:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Sur un site de petites annonces, genre 320 euros. Pas trop mal conservé, le mec l'avait pas beaucoup utilisé.",
+     "created_at": "2026-05-08T15:45:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Pas mal ! Ça va bien te faciliter le travail du sol.",
+     "created_at": "2026-05-08T15:50:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais, surtout que l'année dernière j'ai dû faire pas mal à la main, ça m'avait bien usé les bras. Cette année c'est plus fluide.",
+     "created_at": "2026-05-08T15:55:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "T'as pu le tester un peu ?",
+     "created_at": "2026-05-08T16:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Pas encore, j'ai juste vérifier l'essence et qu'il démarre bien. Dès que j'aurai un moment ce week-end je vais vraiment m'en servir.",
+     "created_at": "2026-05-08T16:05:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Fais attention à l'entretien régulier. Ça prolonge la durée de vie.",
+     "created_at": "2026-05-08T16:10:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "a_motoculteur_modele",
+   "participants": [
+    "user:paul",
+    "agent:bricolage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Tu as eu le temps de bien examiner ton motoculteur depuis ?",
+     "created_at": "2026-06-02T10:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui ! Je l'ai pas mal utilisé maintenant. C'est un Staub PP2X, un petit modèle mais vraiment efficace pour mes deux carrés.",
+     "created_at": "2026-06-02T10:05:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Le Staub PP2X, ouais c'est une bonne petite machine. Moins bruyante que d'autres modèles.",
+     "created_at": "2026-06-02T10:10:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "a_msg_staub_prix",
+     "content": "Exactement. Et pour 320 euros en d'occasion, c'était vraiment une belle affaire. Neuf ça coûte presque le double.",
+     "created_at": "2026-06-02T10:15:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "T'as pas eu de problème de démarrage ?",
+     "created_at": "2026-06-02T10:20:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Non, c'est super fiable. Le vendeur avait bien entretenu la machine. J'ai quand même vidé le vieux carburant et mis du neuf, par sécurité.",
+     "created_at": "2026-06-02T10:25:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Bonne initiative. Et le motoculteur, tu le ranges où ?",
+     "created_at": "2026-06-02T10:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Dans le petit abri en fond de jardin avec les autres outils. C'est pratique, pas trop loin du potager et ça prend pas trop de place.",
+     "created_at": "2026-06-02T10:35:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Parfait, tu peux la maintenir l'année prochaine sans souci.",
+     "created_at": "2026-06-02T10:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "a_potager_juin",
+   "participants": [
+    "user:paul",
+    "agent:jardinage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Alors Paul, c'est devenu comment le potager après tout ça ?",
+     "created_at": "2026-06-10T08:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Franchement, une vraie transformation ! Avec le motoculteur j'ai pu nettoyer correctement. Les deux carrés sont maintenant impeccables.",
+     "created_at": "2026-06-10T08:35:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Vraiment ? C'est dingue comme changement ! Tes plants poussent bien ?",
+     "created_at": "2026-06-10T08:40:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Super bien. Les tomates viennent de fleurir, le basilic est déjà bien fourni, les courgettes font des feuilles massives. C'est magnifique.",
+     "created_at": "2026-06-10T08:45:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Vous avez mis du compost ?",
+     "created_at": "2026-06-10T08:50:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, du compost bien décomposé avant de planter. Ça a vraiment aidé pour la structure du sol. J'ai aussi mis du paillis pour garder l'humidité.",
+     "created_at": "2026-06-10T08:55:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Vous arrosez régulièrement ?",
+     "created_at": "2026-06-10T09:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Tous les matins avec un tuyau, sauf s'il a plu. Du coup avec cette météo un peu fraîche de juin, c'est plutôt bon. Pas besoin d'arroser comme en plein été.",
+     "created_at": "2026-06-10T09:05:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Vous en êtes content de votre travail ?",
+     "created_at": "2026-06-10T09:10:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "a_potager_juillet_invasion",
+   "participants": [
+    "user:paul",
+    "agent:jardinage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Salut Paul ! Comment ça se passe le potager avec cette chaleur ?",
+     "created_at": "2026-07-15T18:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Franchement, pas terrible. Il y a un vrai souci avec les pucerons maintenant. Ça a dégénéré rapidement.",
+     "created_at": "2026-07-15T18:05:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Oh non, pas les pucerons ! Ça couvre beaucoup de plantes ?",
+     "created_at": "2026-07-15T18:10:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "a_msg_pucerons_juillet",
+     "content": "Oui, malheureusement tout est envahi. Les tomates, le basilic, même les courgettes. Ça a explosé d'un coup avec la chaleur. Ils ont vraiment tout colonisé.",
+     "created_at": "2026-07-15T18:15:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "T'as essayé quoi pour les combattre ?",
+     "created_at": "2026-07-15T18:20:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "J'ai vaporisé du savon noir, mais c'est un peu tard. J'aurais dû intervenir plus tôt en juillet quand j'ai vu les premiers.",
+     "created_at": "2026-07-15T18:25:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "C'est pas trop tard, continue avec le savon noir, et vaporise plus souvent.",
+     "created_at": "2026-07-15T18:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, je vais essayer. J'ai aussi envisagé d'introduire des coccinelles, paraît que c'est efficace.",
+     "created_at": "2026-07-15T18:35:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "C'est une excellente idée, biologique et durable. Essaie ça.",
+     "created_at": "2026-07-15T18:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "a_travail_support",
+   "participants": [
+    "user:paul",
+    "user:claire",
+    "agent:rh"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Alors Paul, comment tu t'adaptes à ton nouveau rôle dans l'équipe Support ?",
+     "created_at": "2026-05-20T14:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Bien ! J'ai rejoint l'équipe Support début mai, c'est une grosse transition après le développement. Claire m'a bien intégré.",
+     "created_at": "2026-05-20T14:05:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Paul se débrouille très bien, il apprend vite et il aide déjà les collègues sur les tickets.",
+     "created_at": "2026-05-20T14:10:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Excellent. Et pour le côté administratif, ça s'est bien passé ?",
+     "created_at": "2026-05-20T14:15:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, les premières semaines sont derrière moi maintenant. Au fait, on a parlé de déménager bientôt, non ?",
+     "created_at": "2026-06-05T10:30:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Oui, l'équipe Support se délocalise de Villeurbanne à Lyon Part-Dieu le mois prochain. Ça va être sympa de bosser dans le centre.",
+     "created_at": "2026-06-05T10:35:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "a_msg_support_partdieu",
+     "content": "Cool, donc à partir de juin on sera tous basés à Lyon Part-Dieu. C'est mieux placé pour les trajets aussi.",
+     "created_at": "2026-06-05T10:40:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Oui, et les locaux sont neufs. On aura des bureaux plus spacieux qu'ici.",
+     "created_at": "2026-06-05T10:45:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Et Sofia, elle continue au design à Villeurbanne ?",
+     "created_at": "2026-06-05T10:50:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "b_budget_enveloppe_rh",
+   "participants": [
+    "user:alice",
+    "agent:compta"
+   ],
+   "scope": "private",
+   "messages": [
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "content": "Alice, on doit finalize le budget d'augmentations pour l'année fiscale.",
+     "created_at": "2026-05-08T09:00:00Z"
+    },
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "D'accord. Les chiffres sont bons pour discuter ?",
+     "created_at": "2026-05-08T09:05:00Z"
+    },
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "id": "b_budget_55k_augment",
+     "content": "On a une enveloppe de 55 000 euros pour les augmentations collectives. C'est strict, vu qu'on vient d'embaucher dans Support.",
+     "created_at": "2026-05-08T09:10:00Z"
+    },
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "Hmm, c'est serré. On peut étaler sur deux exercices ?",
+     "created_at": "2026-05-08T09:15:00Z"
+    },
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "content": "Possible, mais on perd la progressivité. Je propose d'y aller avec les 55 000 et on réévalue en août.",
+     "created_at": "2026-05-08T09:20:00Z"
+    },
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "Et pour la répartition, on fait par ancienneté ou par secteur ?",
+     "created_at": "2026-05-08T09:25:00Z"
+    },
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "content": "Je pense qu'on doit privilégier les plus anciens, et un petit plus pour Support vu qu'on a embauché récemment.",
+     "created_at": "2026-05-08T09:30:00Z"
+    },
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "D'accord. Tu peux me faire une simulation pour voir la ventilation ?",
+     "created_at": "2026-05-08T09:35:00Z"
+    },
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "content": "Bien sûr. Je te l'envoie demain matin avec les projections sur deux ans.",
+     "created_at": "2026-05-08T09:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "b_prestataire_demenagement_rh",
+   "participants": [
+    "user:alice",
+    "agent:compta"
+   ],
+   "scope": "private",
+   "messages": [
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "J'ai les trois devis pour le déménagement. Qui a le meilleur rapport ?",
+     "created_at": "2026-05-12T10:30:00Z"
+    },
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "content": "Les trois c'est quoi comme budget ?",
+     "created_at": "2026-05-12T10:35:00Z"
+    },
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "Déménager Plus demande 8500, les deux autres c'est 9200 et 9600.",
+     "created_at": "2026-05-12T10:40:00Z"
+    },
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "id": "b_demenager_plus_choix",
+     "content": "Déménager Plus, sans hésiter. Ils ont fait du bon boulot pour la filiale de Grenoble. J'appelle le responsable commercial demain pour finaliser le contrat.",
+     "created_at": "2026-05-12T10:45:00Z"
+    },
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "Parfait. Le déménagement c'est prévu pour quand, mi-juin ?",
+     "created_at": "2026-05-12T10:50:00Z"
+    },
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "content": "C'est ça, 10 ou 11 juin. J'ai pas encore la date exacte, mais ils m'ont dit que c'était dans cette fenêtre.",
+     "created_at": "2026-05-12T10:55:00Z"
+    },
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "Ok. On dit vendredi 10 juin du coup. Faut que tu confirmes avec Déménager Plus et que tu le mettes dans le planning RH.",
+     "created_at": "2026-05-12T11:00:00Z"
+    },
+    {
+     "author_key": "agent:compta",
+     "role": "assistant",
+     "content": "Noté. Je les appelle ce matin. Y a une charge RH importante pour coordonner ?",
+     "created_at": "2026-05-12T11:05:00Z"
+    },
+    {
+     "author_key": "user:alice",
+     "role": "user",
+     "content": "Oui, il faudra briefer les équipes, organiser le déménagement du matériel informatique, faire les adresses de changement. Je me occupe de tout ça avec Claire.",
+     "created_at": "2026-05-12T11:10:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "b_paul_rejoint_support",
+   "participants": [
+    "user:paul",
+    "user:claire",
+    "agent:rh"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Bienvenue dans l'équipe Support, Paul. Je sais que tu viens du développement, donc ça va être une belle transition.",
+     "created_at": "2026-05-01T08:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "b_paul_support_mai",
+     "content": "Merci Claire ! Du coup, je vais travailler directement avec toi à partir de maintenant, c'est ça ?",
+     "created_at": "2026-05-01T08:10:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Exactement. On aura Sofia qui reste au design, mais l'équipe Support c'est toi, moi et les deux autres. On a pas mal de requêtes à gérer.",
+     "created_at": "2026-05-01T08:15:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Félicitations Paul ! Tu vas recevoir ton dossier d'intégration ce soir. Les horaires c'est 8h30 à 17h30, avec une pause midi flexible.",
+     "created_at": "2026-05-01T08:20:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Super. Et on bouge pas d'ici ? Villeurbanne ça me convient bien.",
+     "created_at": "2026-05-01T08:25:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Pour l'instant oui, on est bien installés. Mais on verra comment ça évolue avec ta venue. L'équipe devient plus grande.",
+     "created_at": "2026-05-01T08:30:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Paul, tu vas aussi avoir accès au mur des projets et aux métriques de Support dès demain matin.",
+     "created_at": "2026-05-01T08:35:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ok ! Je commence à être impatient. Y a quoi sur le programme pour demain ?",
+     "created_at": "2026-05-01T08:40:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Demain c'est présentation de l'équipe et des processus. Lundi prochain tu commences les vrais tickets avec les autres.",
+     "created_at": "2026-05-01T08:45:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "b_support_demenage_juin",
+   "participants": [
+    "user:paul",
+    "user:claire",
+    "user:sofia"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Bon, j'ai une annonce importante. L'équipe Support va changer de localisation.",
+     "created_at": "2026-06-01T10:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oh non, on vient à peine de s'installer ici ! Où ça ?",
+     "created_at": "2026-06-01T10:05:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "id": "b_lyon_partdieu_juin",
+     "content": "On demenage à Lyon Part-Dieu. C'est décidé pour le mois de juin, dans trois semaines. Sofia, toi tu restes au design ici à Villeurbanne, mais on aura besoin de toi en visio souvent.",
+     "created_at": "2026-06-01T10:10:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Vous allez me manquer ! Mais honnêtement, j'aurai un peu plus d'espace pour les maquettes. Bon courage pour le déménagement.",
+     "created_at": "2026-06-01T10:15:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "C'est comment, Lyon Part-Dieu ? T'as des infos sur les transports ?",
+     "created_at": "2026-06-01T10:20:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "C'est un quartier de business moderne, très connecté. T'auras tes trajets qui vont changer mais c'est quand même pas mal.",
+     "created_at": "2026-06-01T10:25:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Y aura des places de parking ? Villeurbanne j'avais mon emplacement réservé.",
+     "created_at": "2026-06-01T10:30:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Oui, y a un parking en sous-sol. C'est pas gratuit mais c'est correct.",
+     "created_at": "2026-06-01T10:35:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Et vous, vous arrivez comment avec le déménagement ? C'est stressant pour une équipe entière.",
+     "created_at": "2026-06-01T10:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "b_prep_logistique_demenagement",
+   "participants": [
+    "user:claire",
+    "agent:rh"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Claire, on doit valider les plans de l'étage avant le déménagement. Le prestataire demande confirmation la semaine prochaine.",
+     "created_at": "2026-05-20T14:00:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "id": "b_espace_etroit_villeurbanne",
+     "content": "Oui, on a besoin de plus d'espace. À Villeurbanne c'était vraiment serré avec Paul qui a rejoint. On avait juste quatre bureaux et trois et demi de réunion, c'était pas possible.",
+     "created_at": "2026-05-20T14:05:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "À Part-Dieu on aura deux étages complets si vous le voulez. C'est peut-être un peu spacieux, mais c'est mieux que d'être crampon.",
+     "created_at": "2026-05-20T14:10:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Ça m'intéresse. On mettra les bureaux à l'étage nord, les réunions au sud ?",
+     "created_at": "2026-05-20T14:15:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "C'est une bonne organisation. L'étage nord a plus de lumière le matin, donc c'est idéal pour les bureaux.",
+     "created_at": "2026-05-20T14:20:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Et la connectique internet, on est sûr que c'est bon ?",
+     "created_at": "2026-05-20T14:25:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Oui, l'immeuble a de la fibre optique. J'ai checké avec nos infra. Le débit est bien meilleur qu'ici.",
+     "created_at": "2026-05-20T14:30:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Super. Bon, je vais parler à l'équipe pour qu'on soit prêts la semaine avant.",
+     "created_at": "2026-05-20T14:35:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Je te prépare un dossier avec les infos de déménagement pour que tu puisses les briefer.",
+     "created_at": "2026-05-20T14:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "b_roles_equipe_support",
+   "participants": [
+    "user:paul",
+    "user:claire"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Paul, je veux clarifier comment on organise le travail. T'es pas responsable de secteur, tu aides sur tout.",
+     "created_at": "2026-05-10T09:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "D'accord, c'est comme une sorte de généraliste de Support ?",
+     "created_at": "2026-05-10T09:05:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "id": "b_role_generaliste_support",
+     "content": "Oui, exactement. Tu gères les tickets clients génériques, les escalades, et tu m'aides à former les nouveaux. C'est un rôle clé.",
+     "created_at": "2026-05-10T09:10:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ça me plaît bien. Je peux commencer quand ?",
+     "created_at": "2026-05-10T09:15:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "À partir de lundi prochain. On va te briefer sur les processus en deux jours.",
+     "created_at": "2026-05-10T09:20:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Et pour les outils, je vais avoir accès à quoi ? Vous utilisez Zendesk ?",
+     "created_at": "2026-05-10T09:25:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Oui, Zendesk pour les tickets. Et puis Slack, bien sûr, pour la communication rapide avec l'équipe et les clients.",
+     "created_at": "2026-05-10T09:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Comme avant au dev. D'accord. Vous avez pas des documentations ?",
+     "created_at": "2026-05-10T09:35:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Bien sûr, y a un wiki interne et une FAQ. Je vais te donner l'accès vendredi. Des questions sur autre chose ?",
+     "created_at": "2026-05-10T09:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "b_mobilier_bureau_config",
+   "participants": [
+    "user:paul",
+    "user:sofia",
+    "agent:rh"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "On finalize la liste du mobilier pour Part-Dieu. J'ai trois propositions de fournisseur. Vous préférez quoi comme bureau ?",
+     "created_at": "2026-05-25T13:30:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Moi je vais rester à Villeurbanne, mais j'imagine que vous voulez quelque chose d'ergonomique ?",
+     "created_at": "2026-05-25T13:35:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, j'aime bien les bureaux qui se règlent, histoire de pouvoir varier la position.",
+     "created_at": "2026-05-25T13:40:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "id": "b_bureau_ergonomique_sitmat",
+     "content": "Je recommande le Sitmat ErgoMax 240, c'est assis-debout motorisé, très appréciée. Faut compter 800 euros par poste, on en aura besoin pour quatre à Part-Dieu.",
+     "created_at": "2026-05-25T13:45:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "ça semble bien. Et pour les chaises ?",
+     "created_at": "2026-05-25T13:50:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Chaises 'Herman Miller' pour les quatre postes, avec support lombaire. C'est un investissement mais tu vas pas avoir mal au dos.",
+     "created_at": "2026-05-25T13:55:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Et l'éclairage sur les postes ? Vous avez pensé à mettre des lampes individuelles ?",
+     "created_at": "2026-05-25T14:00:00Z"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Oui, on a des lampes LED. Elles sont programmables pour réduire la fatigue oculaire.",
+     "created_at": "2026-05-25T14:05:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Parfait. Quand est-ce que le mobilier arrive ?",
+     "created_at": "2026-05-25T14:10:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "b_potager_legumes_paul",
+   "participants": [
+    "user:paul",
+    "agent:jardinage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Paul, comment avance ton potager ? On est en plein été maintenant.",
+     "created_at": "2026-07-15T18:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Pas mal ! Les tomates poussent super bien, je vais bientôt récolter. Les courgettes aussi.",
+     "created_at": "2026-07-15T18:05:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "C'est bon à entendre. Tu as des pucerons ?",
+     "created_at": "2026-07-15T18:10:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Malheureusement oui, j'ai dû traiter la semaine dernière. Mais c'est sous contrôle maintenant.",
+     "created_at": "2026-07-15T18:15:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "C'est dur au début. As-tu pensé à diversifier les cultures pour l'année prochaine ?",
+     "created_at": "2026-07-15T18:20:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, je pense ajouter des haricots et un peu de menthe. Et repenser la disposition des carrés.",
+     "created_at": "2026-07-15T18:25:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Bonne idée. La rotation c'est important. Ça va bien avec ton boulot nouveau ?",
+     "created_at": "2026-07-15T18:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ça va plutôt bien. Moins de stress qu'au dev, et j'ai du temps pour le jardin les week-ends.",
+     "created_at": "2026-07-15T18:35:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "C'est super. Continue avec ça, tu vas récolter pas mal cet été encore.",
+     "created_at": "2026-07-15T18:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "c_piano_chopin",
+   "participants": [
+    "user:paul",
+    "agent:musique"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Salut Paul ! Comment ça se passe avec ton apprentissage du piano ?",
+     "created_at": "2026-03-15T18:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Coucou ! Ça avance doucement mais sûrement. Ça fait deux ans que j'ai commencé, c'est pas mal comme progression.",
+     "created_at": "2026-03-15T18:05:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Vraiment cool ! Sur quel morceau tu bouffes tes heures en ce moment ?",
+     "created_at": "2026-03-15T18:07:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "c_piano_fantaisie_premiere",
+     "content": "Je travaille sur la Fantaisie-Impromptu de Chopin. C'est un vrai défi, franchement.",
+     "created_at": "2026-03-15T18:10:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Ouh la, c'est ambitieux pour quelqu'un qui débute ! C'est pas trop compliqué ?",
+     "created_at": "2026-03-15T18:12:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais, les passages rapides c'est la mort. Mais bon, on continue, faut bien progresser.",
+     "created_at": "2026-03-15T18:15:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Je pense que tu vas y arriver avec un peu de travail régulier.",
+     "created_at": "2026-03-15T18:17:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Merci ! Je vais continuer à m'acharner dessus.",
+     "created_at": "2026-03-15T18:20:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Tiens-moi au courant de comment ça évolue !",
+     "created_at": "2026-03-15T18:22:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "c_animaux_nocturne",
+   "participants": [
+    "user:paul",
+    "agent:animaux"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Coucou Paul ! Alors, ton chat ça va ?",
+     "created_at": "2026-04-10T10:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Salut ! Oui Nocturne c'est mon pote. Un très beau chat noir, d'où son nom.",
+     "created_at": "2026-04-10T10:05:00Z"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Ah sympa ! Il a quel tempérament ?",
+     "created_at": "2026-04-10T10:07:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "c_animaux_nocturne_sommeil",
+     "content": "Il dort littéralement toute la journée. Le soir il sort et il revient avant mon lever.",
+     "created_at": "2026-04-10T10:10:00Z"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Ha ha, un vrai chat ! Il te pose pas problème la nuit ?",
+     "created_at": "2026-04-10T10:12:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Non pas du tout, il est discret. Franchement je pense qu'il dort aussi dehors.",
+     "created_at": "2026-04-10T10:15:00Z"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Comment tu le nourris ? Il a une alimentation spéciale ?",
+     "created_at": "2026-04-10T10:17:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Croquettes le matin, puis des trucs frais le soir. Pas de fruits de mer bien sûr, j'y suis allergique.",
+     "created_at": "2026-04-10T10:20:00Z"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Bon, tu l'as bien en main ce chat !",
+     "created_at": "2026-04-10T10:22:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "c_sport_claire_avril",
+   "participants": [
+    "user:claire",
+    "agent:sport"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Hey Claire ! Ça se passe bien tes entraînements pour le semi-marathon ?",
+     "created_at": "2026-04-08T17:30:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Coucou ! Ouais j'adore, ça me plaît vraiment. J'ai commencé y a quelques mois maintenant.",
+     "created_at": "2026-04-08T17:35:00Z"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Super ! Du coup tu cours combien sur tes longues sorties ?",
+     "created_at": "2026-04-08T17:37:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "id": "c_sport_distance_avril",
+     "content": "En ce moment je fais 10 kilomètres pour les sorties longues. Ça dépend des jours.",
+     "created_at": "2026-04-08T17:40:00Z"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "C'est un bon point de départ ! Combien de fois par semaine tu t'entraînes ?",
+     "created_at": "2026-04-08T17:42:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Trois fois par semaine à peu près. C'est bon pour tenir avec mon boulot à Part-Dieu.",
+     "created_at": "2026-04-08T17:45:00Z"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "C'est un équilibre cohérent. Et tu as une cible pour le semi ?",
+     "created_at": "2026-04-08T17:47:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Oui, je vise 2h15. C'est réaliste si je progresse bien.",
+     "created_at": "2026-04-08T17:50:00Z"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Avec ta détermination t'y arriveras !",
+     "created_at": "2026-04-08T17:52:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "c_piano_satie",
+   "participants": [
+    "user:paul",
+    "agent:musique"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Salut Paul ! Alors ça avance le morceau de Chopin ?",
+     "created_at": "2026-06-01T18:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ah ben en fait non, j'en ai un peu marre. Ça m'a vraiment découragé.",
+     "created_at": "2026-06-01T18:05:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Oh non ! C'était trop dur pour toi du coup ?",
+     "created_at": "2026-06-01T18:07:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais, franchement je crois que j'avais pas le niveau. Ça m'a vraiment frustré.",
+     "created_at": "2026-06-01T18:10:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Je comprends. Du coup tu fais quoi, tu arrêtes ?",
+     "created_at": "2026-06-01T18:12:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "c_piano_gymnopédie_juin",
+     "content": "Non, j'ai commencé sur les Gymnopédies de Satie à la place. C'est beaucoup plus calme et serein.",
+     "created_at": "2026-06-01T18:15:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Ah c'est une très bonne idée ça ! Satie c'est magnifique.",
+     "created_at": "2026-06-01T18:17:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, c'est vraiment différent mais tellement plus agréable à jouer.",
+     "created_at": "2026-06-01T18:20:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Tant que ça te plaît c'est l'essentiel !",
+     "created_at": "2026-06-01T18:22:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "c_animaux_sofia",
+   "participants": [
+    "user:sofia",
+    "agent:animaux"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Salut Sofia ! Comment vont tes deux petits félins ?",
+     "created_at": "2026-05-12T14:00:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Hey ! Pixel et Vecteur vont super bien ! Ils sont comme deux petits dingues en ce moment.",
+     "created_at": "2026-05-12T14:05:00Z"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Ha ha ! Ils s'entendent bien ensemble ?",
+     "created_at": "2026-05-12T14:07:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Oui nickel ! Pixel est plus posé mais Vecteur c'est une vraie petite fusée.",
+     "created_at": "2026-05-12T14:10:00Z"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Ha ha, chacun sa personnalité ! Et l'alimentation ?",
+     "created_at": "2026-05-12T14:12:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "id": "c_animaux_sofia_nutrition",
+     "content": "Des croquettes de qualité, évidemment. Moi je suis végétarienne mais je fais pas de prosélytisme à mes chats, ils ont besoin de viande.",
+     "created_at": "2026-05-12T14:15:00Z"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Ha ha c'est la bonne attitude ! Tu trouves facilement ce qu'il faut ?",
+     "created_at": "2026-05-12T14:17:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Ouais sans problème, y a plein de bonnes marques maintenant.",
+     "created_at": "2026-05-12T14:20:00Z"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Cool, et pas de soucis de santé pour eux ?",
+     "created_at": "2026-05-12T14:22:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "c_sport_claire_juillet",
+   "participants": [
+    "user:claire",
+    "agent:sport"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Yo Claire ! Quoi de neuf avec tes entraînements ?",
+     "created_at": "2026-07-05T18:00:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Salut ! Ça va super bien franchement ! Je sens que je progresse vraiment.",
+     "created_at": "2026-07-05T18:05:00Z"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Trop bien ! Et du coup tu tournes à quel kilomètrage maintenant ?",
+     "created_at": "2026-07-05T18:07:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "id": "c_sport_distance_juillet",
+     "content": "J'ai réussi à atteindre 15 kilomètres pour mes longues sorties ! Je suis vraiment contente.",
+     "created_at": "2026-07-05T18:10:00Z"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Waow, c'est une belle progression ! Tu dois être bien préparée pour le semi du coup ?",
+     "created_at": "2026-07-05T18:12:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Ouais j'y crois vraiment maintenant pour mes 2h15 !",
+     "created_at": "2026-07-05T18:15:00Z"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "C'est incroyable comme tu as progressé en trois mois !",
+     "created_at": "2026-07-05T18:17:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Oui et je vais continuer à augmenter jusqu'au 21 km pour faire un complet.",
+     "created_at": "2026-07-05T18:20:00Z"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Respect ! Tu vas y arriver !",
+     "created_at": "2026-07-05T18:22:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "c_piano_detente",
+   "participants": [
+    "user:paul",
+    "agent:musique"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Salut Paul ! Comment tu trouves Satie finalement ?",
+     "created_at": "2026-07-08T19:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "C'est vraiment un changement de direction ! Beaucoup plus satisfaisant.",
+     "created_at": "2026-07-08T19:05:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Et du coup tu joues quand ? C'est pas trop difficile de trouver du temps ?",
+     "created_at": "2026-07-08T19:07:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "c_piano_piano_soir",
+     "content": "Le soir surtout, c'est ma détente après la journée. Nocturne aime bien s'installer près du piano.",
+     "created_at": "2026-07-08T19:10:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Ah mignon ! Il écoute vraiment ou il dort ?",
+     "created_at": "2026-07-08T19:12:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ha, à vrai dire je sais pas, il dort surtout mais il ronronne parfois.",
+     "created_at": "2026-07-08T19:15:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Ha ha, au moins tu as un public ! Et les passages difficiles ?",
+     "created_at": "2026-07-08T19:17:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "C'est plus fluide qu'avant franchement. La structure est simpler donc moins frustrante.",
+     "created_at": "2026-07-08T19:20:00Z"
+    },
+    {
+     "author_key": "agent:musique",
+     "role": "assistant",
+     "content": "Super ! Continue comme ça !",
+     "created_at": "2026-07-08T19:22:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "c_voyage_vercors",
+   "participants": [
+    "user:paul",
+    "user:damien"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Salut Damien ! Alors, tu penses toujours à la rando en août ?",
+     "created_at": "2026-08-01T10:00:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Ouais mais on a changé d'avis sur le lieu du coup.",
+     "created_at": "2026-08-01T10:05:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ah bon ? Qu'est-ce qui s'est passé avec les Cévennes ?",
+     "created_at": "2026-08-01T10:07:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Les gorges du Tarn ça paraît plus risqué en ce moment. Du coup on pense au Vercors.",
+     "created_at": "2026-08-01T10:10:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais c'est plus prudent. Y a de bonnes randos là-bas ?",
+     "created_at": "2026-08-01T10:12:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Plein ! Plusieurs circuits, ça dépend du niveau qu'on veut.",
+     "created_at": "2026-08-01T10:15:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Cool, ça me changerait les idées une break comme ça. J'ai besoin.",
+     "created_at": "2026-08-01T10:17:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Oui on finalise les détails cette semaine ?",
+     "created_at": "2026-08-01T10:20:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais go, envoie-moi les infos.",
+     "created_at": "2026-08-01T10:22:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "d_perceuse_achat",
+   "participants": [
+    "user:paul",
+    "agent:bricolage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Salut Paul, tu as un petit projet en tête en ce moment ?",
+     "created_at": "2026-05-02T10:30:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, en fait je viens d'acheter un outil électrique pour pouvoir faire des trucs plus sérieux à la maison.",
+     "created_at": "2026-05-02T10:32:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Ah oui ? C'est quoi comme outil ?",
+     "created_at": "2026-05-02T10:33:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "d_perceuse_bosch_achat",
+     "content": "Une perceuse sans fil. Le modèle Bosch GSR 18V-60 FC, c'est du costaud. 450 euros mais ça devrait me servir longtemps.",
+     "created_at": "2026-05-02T10:35:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Très bonne marque, tu vas voir c'est un game changer pour les projets à la maison. Avec une perceuse comme ça tu peux vraiment tenter des choses.",
+     "created_at": "2026-05-02T10:37:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Franchement oui, j'ai hâte de la tester. Sofia m'a dit qu'elle avait des projets aussi, faut qu'on se voie.",
+     "created_at": "2026-05-02T10:40:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Ouais, plus on est, plus on a des idées. Vous avez pensé à des projets spécifiques ?",
+     "created_at": "2026-05-02T10:43:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Pour ma part j'aimerais bien monter une étagère depuis longtemps. Et Sofia voulait remettre en ordre sa chambre, donc il y a du potentiel.",
+     "created_at": "2026-05-02T10:45:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "C'est cool, et voilà ta perceuse qui arrive exactement au bon moment. Tiens-moi au courant !",
+     "created_at": "2026-05-02T10:48:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "d_etager_montage",
+   "participants": [
+    "user:paul",
+    "agent:bricolage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Alors, tu as pu tester ta nouvelle perceuse ?",
+     "created_at": "2026-06-08T14:15:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui ! En fait je me suis lancé sur un projet qu'on repousse depuis longtemps. Une étagère murale dans le salon.",
+     "created_at": "2026-06-08T14:17:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Sympas ! Ça avance ? C'est ton premier truc ?",
+     "created_at": "2026-06-08T14:19:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "d_etager_perceuse_fixation",
+     "content": "C'est presque fini. La perceuse m'a permis de faire les trous de fixation proprement, beaucoup plus facilement que si j'avais essayé avec un truc manuel.",
+     "created_at": "2026-06-08T14:22:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Ah c'est vrai que pour les trous dans le béton sans perceuse c'est la galère. Tu as mis des chevilles ?",
+     "created_at": "2026-06-08T14:24:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Bien sûr, j'ai pas envie que ça me dégringole sur la tête. Des chevilles lourdes, ça va tenir.",
+     "created_at": "2026-06-08T14:26:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "T'as quel poids tu veux mettre dessus ?",
+     "created_at": "2026-06-08T14:28:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Pas grand chose, juste quelques livres et des plantes. Probablement 10, 15 kilos grand max.",
+     "created_at": "2026-06-08T14:30:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Donc avec des chevilles correctes tu vas pas avoir de souci. Bravo pour le projet !",
+     "created_at": "2026-06-08T14:33:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "d_placard_reparation",
+   "participants": [
+    "user:paul",
+    "agent:bricolage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Ça va le bricolage ? T'as d'autres projets en cours ?",
+     "created_at": "2026-07-14T09:45:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "id": "d_placard_porte_reparation",
+     "content": "Ben j'ai trouvé plein de trucs à faire en vrai. Il y a une porte de meuble en cuisine qui grinçait et se fermait mal depuis l'été dernier. J'ai enfin dû m'en occuper.",
+     "created_at": "2026-07-14T09:48:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Ah oui, c'est énervant ces petites choses qu'on repousse. T'as pu la fixer ?",
+     "created_at": "2026-07-14T09:50:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "J'ai serré les charnières, ça a aidé mais pas complètement. J'ai aussi aplani un peu le bord qui se coinçait. Maintenant ça ferme nickel.",
+     "created_at": "2026-07-14T09:53:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Bien joué. Souvent c'est juste ça qui manque, un petit réglage. Ça t'a pris combien de temps ?",
+     "created_at": "2026-07-14T09:55:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Une bonne heure avec tout le rangement après. Mais franchement c'était pas stressant, juste un peu fastidieux.",
+     "created_at": "2026-07-14T09:57:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "T'as une tondeuse ou tu utilisais un rabot à main ?",
+     "created_at": "2026-07-14T10:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Un rabot à main pour l'aplannir, puis un peu de papier verre pour finir. Rien de complexe.",
+     "created_at": "2026-07-14T10:02:00Z"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Classique mais efficace. Bon travail Paul !",
+     "created_at": "2026-07-14T10:05:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "d_randonnee_cevennes_prevue",
+   "participants": [
+    "user:paul",
+    "user:damien",
+    "agent:voyages"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Ça te dirait une randonnée ensemble ? Je pensais à quelque chose de sympa en août.",
+     "created_at": "2026-07-05T18:20:00Z"
+    },
+    {
+     "author_key": "agent:voyages",
+     "role": "assistant",
+     "content": "Ah super idée ! Vous pensez à quelle région ?",
+     "created_at": "2026-07-05T18:22:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "id": "d_randonnee_cevennes_location",
+     "content": "Je pensais aux Cévennes. Les gorges du Tarn c'est magnifique, j'y suis jamais allé mais tout le monde dit que c'est un classique.",
+     "created_at": "2026-07-05T18:25:00Z"
+    },
+    {
+     "author_key": "agent:voyages",
+     "role": "assistant",
+     "content": "Très bon choix. C'est accessible et les paysages sont superbes. Vous visez quel niveau de difficulté ?",
+     "created_at": "2026-07-05T18:27:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais franchement j'en ai marre de rester à la maison avec tous mes projets. Une semaine en montagne ça serait parfait. Faut juste vérifier qu'on a pas trop d'absences en août.",
+     "created_at": "2026-07-05T18:30:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Pour moi c'est ok, Nîmes c'est pas loin des Cévennes. Paul ça te va ?",
+     "created_at": "2026-07-05T18:33:00Z"
+    },
+    {
+     "author_key": "agent:voyages",
+     "role": "assistant",
+     "content": "Vous avez pensé à l'hébergement ? Il y a des gîtes sympas dans le coin.",
+     "created_at": "2026-07-05T18:35:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Je pensais à des petits hôtels ou gîtes, ouais. Ça change de rester chez moi. Et puis c'est pas cher en général dans cette région.",
+     "created_at": "2026-07-05T18:38:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Ok je vais commencer à regarder. On se redonne des nouvelles bientôt du coup.",
+     "created_at": "2026-07-05T18:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "d_randonnee_vercors_final",
+   "participants": [
+    "user:paul",
+    "user:damien",
+    "agent:voyages"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ça bouge côté montagne ? Vous avez trouvé quelque chose ?",
+     "created_at": "2026-08-02T11:00:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "id": "d_randonnee_vercors_lieu_final",
+     "content": "Ouais désolé, le plan des Cévennes s'est annulé à cause des incendies qui risquaient. Du coup on fait le Vercors à la place, c'est tout aussi bien et c'est même plus proche pour moi.",
+     "created_at": "2026-08-02T11:05:00Z"
+    },
+    {
+     "author_key": "agent:voyages",
+     "role": "assistant",
+     "content": "Ah d'accord, prudent ! Le Vercors c'est aussi très beau. Les lacs, la route des Alpes, vous allez vous régaler.",
+     "created_at": "2026-08-02T11:08:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ok ben je suis partant. J'avais regardé un peu les Cévennes mais le Vercors ça me dit aussi quelque chose. C'est quand alors ?",
+     "created_at": "2026-08-02T11:11:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Première semaine du mois prochain, du 1er au 7 septembre. Ça te va ? Je viens te chercher à Villeurbanne si tu veux.",
+     "created_at": "2026-08-02T11:14:00Z"
+    },
+    {
+     "author_key": "agent:voyages",
+     "role": "assistant",
+     "content": "C'est une bonne époque. La montagne est encore très agréable fin d'été.",
+     "created_at": "2026-08-02T11:16:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui ouais, septembre c'est bien. Moins de touristes qu'en août et puis la température c'est cool.",
+     "created_at": "2026-08-02T11:18:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Exactement. Bon, je te dis les détails exacts samedi par téléphone. On va avoir une belle semaine.",
+     "created_at": "2026-08-02T11:21:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "d_motoculteur_damien_nimes",
+   "participants": [
+    "user:damien",
+    "agent:jardinage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Damien ! Tu cultives quelque chose près de Nîmes ?",
+     "created_at": "2026-04-20T14:30:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Oui, j'ai un petit jardin derrière la propriété. C'est plus des légumes de côté vraiment, la vigogne c'est mon truc principal mais j'aime bien avoir des tomates et des herbes.",
+     "created_at": "2026-04-20T14:33:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Ah sympa ! T'as quel équipement pour entretenir ?",
+     "created_at": "2026-04-20T14:35:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "id": "d_motoculteur_staub_prix",
+     "content": "Ben le problème c'est qu'avant j'avais rien, donc j'ai investi. J'ai pris un motoculteur d'occasion, un Staub PP2X, à 320 euros. Ça défonce quand tu dois préparer la terre.",
+     "created_at": "2026-04-20T14:38:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "C'est sympa comme machine ! Ça va bien pour un petit jardin comme le tien. Comment ça se passe avec la terre ?",
+     "created_at": "2026-04-20T14:40:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Franchement bien. C'est du bon matos. Je suis content d'avoir fait cet effort. Ça change tout quand tu dois pas labourer à la main.",
+     "created_at": "2026-04-20T14:43:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Et pour l'entretien du motoculteur ? Ça coûte pas trop en révision ?",
+     "created_at": "2026-04-20T14:45:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Pour l'instant non, j'ai juste vidé l'huile et nettoyé les filtres. C'est vraiment pas compliqué.",
+     "created_at": "2026-04-20T14:48:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "C'est bon à savoir. Ça vous vous simplifier la vie pour pas trop cher.",
+     "created_at": "2026-04-20T14:50:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "d_demenagement_meubles_ete",
+   "participants": [
+    "user:paul",
+    "user:sofia",
+    "agent:achats"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Paul, tu serais dispo ce weekend ? J'ai besoin d'aide pour changer l'aménagement chez moi.",
+     "created_at": "2026-06-22T15:45:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Ouais bien sûr, samedi ça te va ? Je peux venir le matin.",
+     "created_at": "2026-06-22T15:48:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Super ! Faut que je bouge mon armoire de la chambre vers le salon, et puis mon lit aussi.",
+     "created_at": "2026-06-22T15:50:00Z"
+    },
+    {
+     "author_key": "agent:achats",
+     "role": "assistant",
+     "content": "Si vous voulez vous pourriez aussi faire appel à un service de déménagement pour pas vous faire mal au dos. J'ai des contacts.",
+     "created_at": "2026-06-22T15:53:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Non non, on gère tout seul. C'est pas très lourd et puis c'est plus rapide comme ça.",
+     "created_at": "2026-06-22T15:55:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "id": "d_demenagement_sofia_location",
+     "content": "Oui alors moi c'est à Lyon, du coup c'est de l'avoir quelqu'un de confiance qui peut m'aider. Paul c'est mon collègue du design, il connaît bien mes goûts.",
+     "created_at": "2026-06-22T15:58:00Z"
+    },
+    {
+     "author_key": "agent:achats",
+     "role": "assistant",
+     "content": "Bon courage ! Vous n'avez besoin de rien d'autre ?",
+     "created_at": "2026-06-22T16:00:00Z"
+    },
+    {
+     "author_key": "user:sofia",
+     "role": "user",
+     "content": "Non ça devrait aller. Merci pour les propositions quand même !",
+     "created_at": "2026-06-22T16:02:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Bon, je te laisse, à samedi alors Sofia !",
+     "created_at": "2026-06-22T16:05:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "d_potager_damien_legumes",
+   "participants": [
+    "user:damien",
+    "agent:jardinage"
+   ],
+   "scope": "participants",
+   "messages": [
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Alors Damien, ça pousse comment tes légumes cette année ?",
+     "created_at": "2026-05-10T09:20:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Pas mal franchement. Les tomates prennent bien. Bon, c'est vrai que j'ai pas autant de place que j'aimerais à Nîmes, mais je me débrouille.",
+     "created_at": "2026-05-10T09:23:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "T'as quelle surface en tout ?",
+     "created_at": "2026-05-10T09:25:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Oh, c'est relativement modeste. Peut-être 50 mètres carrés grand max, avec un petit coin qui reste à l'ombre. Ça suffit pour avoir des tomates, de la salade, du basilic pour la cuisine.",
+     "created_at": "2026-05-10T09:28:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Ah tu cultives du basilic aussi ? C'est pratique d'avoir ça frais. C'est quoi tes variétés de tomates ?",
+     "created_at": "2026-05-10T09:30:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "J'ai quelques plants que j'ai achetés au marché. Rien de très exotique, juste du classique qui pousse bien. Ça suffit pour mes salades.",
+     "created_at": "2026-05-10T09:33:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Et tu traites comment tes plantes ? T'utilises des produits chimiques ?",
+     "created_at": "2026-05-10T09:35:00Z"
+    },
+    {
+     "author_key": "user:damien",
+     "role": "user",
+     "content": "Non non, je préfère des trucs bio ou maison. Du purin d'ortie pour les plantes, c'est vieux comme le monde mais ça marche.",
+     "created_at": "2026-05-10T09:38:00Z"
+    },
+    {
+     "author_key": "agent:jardinage",
+     "role": "assistant",
+     "content": "Sage décision. C'est bon pour la terre à long terme.",
+     "created_at": "2026-05-10T09:40:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "e_pret_outil",
+   "participants": [
+    "user:paul",
+    "agent:bricolage"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Tu as fini les fixations du salon ?",
+     "created_at": "2026-05-04T10:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, terminé. Du coup j'ai prêté la Bosch à Damien, il en avait besoin.",
+     "created_at": "2026-05-04T10:03:00Z",
+     "id": "e_bosch_pretee_damien"
+    },
+    {
+     "author_key": "agent:bricolage",
+     "role": "assistant",
+     "content": "Tu la récupères quand ?",
+     "created_at": "2026-05-04T10:05:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Pas avant l'automne je pense, il a du chantier.",
+     "created_at": "2026-05-04T10:07:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "e_famille_damien",
+   "participants": [
+    "user:paul",
+    "agent:voyages"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:voyages",
+     "role": "assistant",
+     "content": "Tu as de la famille dans le sud ?",
+     "created_at": "2026-03-20T14:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Mon frère Damien s'est installé à Nîmes en 2019, il y a repris des vignes.",
+     "created_at": "2026-03-20T14:02:00Z",
+     "id": "e_damien_habite_nimes"
+    },
+    {
+     "author_key": "agent:voyages",
+     "role": "assistant",
+     "content": "Tu descends souvent ?",
+     "created_at": "2026-03-20T14:04:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Deux ou trois fois par an, en général l'été.",
+     "created_at": "2026-03-20T14:06:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "e_hierarchie",
+   "participants": [
+    "user:paul",
+    "agent:rh"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Ton rattachement est bien à jour ?",
+     "created_at": "2026-05-11T09:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Oui, je suis passé sous la responsabilité de Claire début mai.",
+     "created_at": "2026-05-11T09:02:00Z",
+     "id": "e_paul_sous_claire"
+    },
+    {
+     "author_key": "agent:rh",
+     "role": "assistant",
+     "content": "Parfait, je note.",
+     "created_at": "2026-05-11T09:04:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "e_entrainement_claire",
+   "participants": [
+    "user:claire",
+    "agent:sport"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Comment se passe la préparation ?",
+     "created_at": "2026-06-02T18:00:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Je vise le semi-marathon d'octobre, je suis à quatre sorties par semaine.",
+     "created_at": "2026-06-02T18:03:00Z",
+     "id": "e_claire_semi_marathon"
+    },
+    {
+     "author_key": "agent:sport",
+     "role": "assistant",
+     "content": "Tu tiens quel rythme ?",
+     "created_at": "2026-06-02T18:05:00Z"
+    },
+    {
+     "author_key": "user:claire",
+     "role": "user",
+     "content": "Autour de cinq minutes au kilomètre sur les longues.",
+     "created_at": "2026-06-02T18:07:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "e_adoption_chat",
+   "participants": [
+    "user:paul",
+    "agent:animaux"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Tu as adopté récemment ?",
+     "created_at": "2026-03-08T11:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Nocturne est chez moi depuis 2020, c'est un européen noir.",
+     "created_at": "2026-03-08T11:02:00Z",
+     "id": "e_nocturne_est_a_paul"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Il s'adapte bien ?",
+     "created_at": "2026-03-08T11:04:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Très bien, il a ses habitudes.",
+     "created_at": "2026-03-08T11:06:00Z"
+    }
+   ]
+  },
+  {
+   "conversation_id": "e_suivi_veterinaire",
+   "participants": [
+    "user:paul",
+    "agent:animaux"
+   ],
+   "messages": [
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "La visite de contrôle a donné quoi ?",
+     "created_at": "2026-07-14T16:00:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Nocturne est sous vermifuge jusqu'en septembre, une dose par mois.",
+     "created_at": "2026-07-14T16:03:00Z",
+     "id": "e_nocturne_vermifuge"
+    },
+    {
+     "author_key": "agent:animaux",
+     "role": "assistant",
+     "content": "Rien d'autre à surveiller ?",
+     "created_at": "2026-07-14T16:05:00Z"
+    },
+    {
+     "author_key": "user:paul",
+     "role": "user",
+     "content": "Non, tout va bien sinon.",
+     "created_at": "2026-07-14T16:07:00Z"
+    }
+   ]
+  }
+ ],
+ "queries": [
+  {
+   "name": "paraphrase_maturite",
+   "requester_key": "user:paul",
+   "query": "Est-ce que les tomates de Paul étaient mûres ?",
+   "expected_ids": [
+    "tomates_vertes"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "paraphrase_gouts",
+   "requester_key": "user:paul",
+   "query": "Qu'est-ce que Paul apprécie de manger ?",
+   "expected_ids": [
+    "aime_tomates"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "paraphrase_restriction",
+   "requester_key": "user:paul",
+   "query": "Y a-t-il quelque chose que Paul évite dans son assiette ?",
+   "expected_ids": [
+    "allergie"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "paraphrase_perceuse",
+   "requester_key": "user:paul",
+   "query": "Paul s'est-il récemment équipé d'un nouvel outil électroportatif ?",
+   "expected_ids": [
+    "perceuse"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "paraphrase_randonnee",
+   "requester_key": "user:paul",
+   "query": "Paul a-t-il prévu une sortie en pleine nature l'été prochain ?",
+   "expected_ids": [
+    "voyage_cevennes"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "paraphrase_chat",
+   "requester_key": "user:paul",
+   "query": "Comment s'appelle l'animal de compagnie de Paul ?",
+   "expected_ids": [
+    "chat_nocturne"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "terme_rare_cultivar",
+   "requester_key": "user:paul",
+   "query": "Rose de Berne",
+   "expected_ids": [
+    "cultivar"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "terme_rare_machine",
+   "requester_key": "user:paul",
+   "query": "Staub PP2X",
+   "expected_ids": [
+    "motoculteur"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "terme_rare_perceuse",
+   "requester_key": "user:paul",
+   "query": "Bosch GSR 18V-60 FC",
+   "expected_ids": [
+    "perceuse"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "terme_rare_chopin",
+   "requester_key": "user:paul",
+   "query": "Fantaisie Impromptu",
+   "expected_ids": [
+    "chopin"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "hors_sujet",
+   "requester_key": "user:paul",
+   "query": "Quelle est la capitale de la Mongolie ?",
+   "expected_ids": [],
+   "family": "negative"
+  },
+  {
+   "name": "acl_budget",
+   "requester_key": "user:paul",
+   "query": "budget de la campagne 45000 euros",
+   "expected_ids": [],
+   "family": "acl"
+  },
+  {
+   "name": "graph_deux_sauts",
+   "requester_key": "user:paul",
+   "query": "Sur quel site géographique se trouve désormais Paul, maintenant qu'il a rejoint une nouvelle équipe ?",
+   "expected_ids": [
+    "equipe_support_site"
+   ],
+   "family": "graph",
+   "strategies": [
+    "graph"
+   ]
+  },
+  {
+   "name": "graph_etat_recent",
+   "requester_key": "user:paul",
+   "query": "Dans quel état est le potager de Paul actuellement ?",
+   "expected_ids": [
+    "potager_entretenu"
+   ],
+   "family": "graph"
+  },
+  {
+   "name": "a_temporal_potager",
+   "requester_key": "user:paul",
+   "query": "Quel est l'état du potager de Paul maintenant, en juillet ?",
+   "expected_ids": [
+    "a_msg_pucerons_juillet"
+   ],
+   "family": "temporal"
+  },
+  {
+   "name": "a_lexical_staub",
+   "requester_key": "user:paul",
+   "query": "Quel était exactement le modèle du motoculteur que Paul a acheté d'occasion ?",
+   "expected_ids": [
+    "a_msg_staub_prix"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "a_lexical_roseberne",
+   "requester_key": "user:paul",
+   "query": "Quels sont les noms exacts des variétés de tomates que Paul cultive ?",
+   "expected_ids": [
+    "a_msg_tomates_varietes"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "a_graph_motoculteur",
+   "requester_key": "user:paul",
+   "query": "Paul a acheté un motoculteur d'occasion. Quel était le modèle et combien il l'a payé ?",
+   "expected_ids": [
+    "a_msg_staub_prix"
+   ],
+   "strategies": [
+    "graph"
+   ],
+   "family": "graph"
+  },
+  {
+   "name": "a_graph_support",
+   "requester_key": "user:paul",
+   "query": "Paul a rejoint une nouvelle équipe au travail. Où se trouve-t-elle maintenant en juin ?",
+   "expected_ids": [
+    "a_msg_support_partdieu"
+   ],
+   "strategies": [
+    "graph"
+   ],
+   "family": "graph"
+  },
+  {
+   "name": "a_paraphrase_legumes",
+   "requester_key": "user:paul",
+   "query": "Est-ce que Paul se fournit en vivres frais en dehors de sa propre production ?",
+   "expected_ids": [
+    "a_msg_marche_legumes"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "a_paraphrase_potager_sante",
+   "requester_key": "user:paul",
+   "query": "Est-ce que le jardin de Paul se porte bien en ce moment ?",
+   "expected_ids": [
+    "a_msg_pucerons_juillet"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "a_paraphrase_demenagement",
+   "requester_key": "user:paul",
+   "query": "Le centre de travail de Paul a-t-il changé de localisation récemment ?",
+   "expected_ids": [
+    "a_msg_support_partdieu"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "b_acl_budget_refused",
+   "requester_key": "user:paul",
+   "query": "Quel montant d'enveloppe ils ont prévu pour les augmentations salariales ?",
+   "expected_ids": [],
+   "family": "acl"
+  },
+  {
+   "name": "b_acl_prestataire_refused",
+   "requester_key": "user:paul",
+   "query": "Quel est le nom du prestataire qu'on a retenu pour le déménagement ?",
+   "expected_ids": [],
+   "family": "acl"
+  },
+  {
+   "name": "b_paraphrase_destination_support",
+   "requester_key": "user:paul",
+   "query": "Quel est le nouvel endroit où s'installe l'équipe Support ?",
+   "expected_ids": [
+    "b_lyon_partdieu_juin"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "b_paraphrase_role_paul",
+   "requester_key": "user:paul",
+   "query": "Quelle responsabilité Paul a-t-il dans l'équipe ?",
+   "expected_ids": [
+    "b_role_generaliste_support"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "b_lexical_mobilier_bureau",
+   "requester_key": "user:paul",
+   "query": "Quel modèle de bureau réglable en hauteur on a commandé pour Part-Dieu ?",
+   "expected_ids": [
+    "b_bureau_ergonomique_sitmat"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "b_graph_paul_working_location",
+   "requester_key": "user:paul",
+   "query": "Où Paul travaille-t-il après avoir rejoint l'équipe Support ?",
+   "expected_ids": [
+    "b_lyon_partdieu_juin"
+   ],
+   "strategies": [
+    "graph"
+   ],
+   "family": "graph"
+  },
+  {
+   "name": "b_graph_timing_demenagement",
+   "requester_key": "user:claire",
+   "query": "Combien de temps après que Paul rejoigne l'équipe Support le déménagement s'est-il fait ?",
+   "expected_ids": [
+    "b_lyon_partdieu_juin"
+   ],
+   "strategies": [
+    "graph"
+   ],
+   "family": "graph"
+  },
+  {
+   "name": "b_negative_pizza_recipe",
+   "requester_key": "user:paul",
+   "query": "Quelle est la meilleure façon de faire une pizza sicilienne à la maison ?",
+   "expected_ids": [],
+   "family": "negative"
+  },
+  {
+   "name": "c_temporal_piano_actuel",
+   "requester_key": "user:paul",
+   "query": "Quel morceau suis-je en train de travailler au piano actuellement ?",
+   "expected_ids": [
+    "c_piano_gymnopédie_juin"
+   ],
+   "family": "temporal"
+  },
+  {
+   "name": "c_temporal_distance_claire",
+   "requester_key": "user:claire",
+   "query": "Quelle distance est-ce que je parcours actuellement pour mes sorties longues ?",
+   "expected_ids": [
+    "c_sport_distance_juillet"
+   ],
+   "family": "temporal"
+  },
+  {
+   "name": "c_paraphrase_style_piano",
+   "requester_key": "agent:musique",
+   "query": "Paul a-t-il changé pour un style plus relaxant à jouer récemment ?",
+   "expected_ids": [
+    "c_piano_gymnopédie_juin"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "c_paraphrase_progression_claire",
+   "requester_key": "agent:sport",
+   "query": "Est-ce que Claire a augmenté la longueur de ses entraînements ?",
+   "expected_ids": [
+    "c_sport_distance_juillet"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "c_paraphrase_rythme_nocturne",
+   "requester_key": "agent:animaux",
+   "query": "À quel moment de la journée Nocturne est-il le plus actif ?",
+   "expected_ids": [
+    "c_animaux_nocturne_sommeil"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "c_lexical_gymnopedies",
+   "requester_key": "user:paul",
+   "query": "Quand ai-je commencé à travailler les Gymnopédies ?",
+   "expected_ids": [
+    "c_piano_gymnopédie_juin"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "c_graph_detente_paul",
+   "requester_key": "agent:musique",
+   "query": "Comment Paul se détend-il le soir chez lui ?",
+   "expected_ids": [
+    "c_piano_piano_soir"
+   ],
+   "family": "graph",
+   "strategies": [
+    "graph"
+   ]
+  },
+  {
+   "name": "c_negative_instrument_damien",
+   "requester_key": "agent:musique",
+   "query": "Quel instrument de musique joue Damien ?",
+   "expected_ids": [],
+   "family": "negative"
+  },
+  {
+   "name": "d_paraphrase_fixation_etagere",
+   "requester_key": "user:paul",
+   "query": "Comment Paul a-t-il réussi à accrocher son étagère murale sans l'abîmer ?",
+   "expected_ids": [
+    "d_etager_perceuse_fixation"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "d_paraphrase_meuble_cuisine",
+   "requester_key": "user:paul",
+   "query": "Qu'a dû corriger Paul chez lui qui ne fonctionnait plus convenablement ?",
+   "expected_ids": [
+    "d_placard_porte_reparation"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "d_paraphrase_incendies_lieu",
+   "requester_key": "user:paul",
+   "query": "Pourquoi Paul et Damien ont-ils changé le plan initial pour leur randonnée en août ?",
+   "expected_ids": [
+    "d_randonnee_vercors_lieu_final"
+   ],
+   "family": "paraphrase"
+  },
+  {
+   "name": "d_lexical_perceuse_bosch_marque",
+   "requester_key": "user:paul",
+   "query": "Combien a coûté la perceuse sans fil modèle Bosch GSR 18V-60 FC que Paul s'est achetée ?",
+   "expected_ids": [
+    "d_perceuse_bosch_achat"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "d_lexical_motoculteur_staub_prix",
+   "requester_key": "user:damien",
+   "query": "À quel prix Damien a-t-il trouvé le motoculteur Staub PP2X pour son jardin ?",
+   "expected_ids": [
+    "d_motoculteur_staub_prix"
+   ],
+   "family": "lexical"
+  },
+  {
+   "name": "d_temporal_randonnee_destination",
+   "requester_key": "user:paul",
+   "query": "Où Paul et Damien vont-ils finalement faire leur randonnée ?",
+   "expected_ids": [
+    "d_randonnee_vercors_lieu_final"
+   ],
+   "family": "temporal"
+  },
+  {
+   "name": "d_graph_aide_demenagement",
+   "requester_key": "agent:voyages",
+   "query": "Paul a aidé quelqu'un à déménager chez elle. Qui a reçu cette aide et dans quelle ville habite cette personne ?",
+   "strategies": [
+    "graph"
+   ],
+   "expected_ids": [
+    "d_demenagement_sofia_location"
+   ],
+   "family": "graph"
+  },
+  {
+   "name": "d_negative_prix_dresseur_ondulation",
+   "requester_key": "user:paul",
+   "query": "Quel est le prix d'un dresseur d'ondulation aux magasins Leroy Merlin de Saint-Etienne ?",
+   "expected_ids": [],
+   "family": "negative"
+  },
+  {
+   "name": "e_graph_ou_est_la_perceuse",
+   "requester_key": "user:paul",
+   "query": "Dans quelle ville se trouve actuellement l'outil que Paul a prêté ?",
+   "expected_ids": [
+    "e_damien_habite_nimes"
+   ],
+   "family": "graph",
+   "strategies": [
+    "graph"
+   ]
+  },
+  {
+   "name": "e_graph_sport_du_responsable",
+   "requester_key": "user:paul",
+   "query": "À quelle compétition se prépare la personne dont Paul dépend au travail ?",
+   "expected_ids": [
+    "e_claire_semi_marathon"
+   ],
+   "family": "graph",
+   "strategies": [
+    "graph"
+   ]
+  },
+  {
+   "name": "e_graph_traitement_animal",
+   "requester_key": "user:paul",
+   "query": "Quel traitement suit la bête qui vit chez Paul ?",
+   "expected_ids": [
+    "e_nocturne_vermifuge"
+   ],
+   "family": "graph",
+   "strategies": [
+    "graph"
+   ]
+  }
+ ]
+}

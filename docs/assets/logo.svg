@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Cinnabar">
+  <title>Cinnabar</title>
+  <!-- Cristal de cinabre : six facettes dans les tons vermillon -->
+  <polygon points="64,8 28,36 64,48" fill="#FF7A5C"/>
+  <polygon points="64,8 64,48 100,36" fill="#F0533C"/>
+  <polygon points="28,36 64,48 64,104 28,88" fill="#E34234"/>
+  <polygon points="64,48 100,36 100,88 64,104" fill="#B8281D"/>
+  <polygon points="28,88 64,104 64,120" fill="#9E2118"/>
+  <polygon points="64,104 100,88 64,120" fill="#7A1610"/>
+  <!-- Reflets sur les arêtes -->
+  <polyline points="28,36 64,48 100,36" fill="none" stroke="#FFD2C4" stroke-width="1.5" stroke-opacity=".55" stroke-linejoin="round"/>
+  <line x1="64" y1="48" x2="64" y2="104" stroke="#FFD2C4" stroke-width="1.5" stroke-opacity=".35"/>
+  <!-- Éclat -->
+  <path d="M106 10 L108.5 17.5 L116 20 L108.5 22.5 L106 30 L103.5 22.5 L96 20 L103.5 17.5 Z" fill="#FFB39E"/>
+</svg>

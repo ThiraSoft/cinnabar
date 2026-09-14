@@ -1,0 +1,6 @@
+/.superpowers/
+/cinnabar
+/bin/
+*.env
+.env
+/config.yaml

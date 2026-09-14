@@ -1,0 +1,21 @@
+-- CandidateEntities cherche les entités dont le nom apparaît quelque part
+-- dans le texte d'un message, avec word_similarity de pg_trgm. Cette
+-- direction n'est pas indexable: l'index trigramme accélère la recherche
+-- d'une aiguille dans une colonne longue, alors qu'on cherche ici une
+-- colonne courte (le nom) à l'intérieur d'un texte long (le message). La
+-- revue de la tâche 4 l'a vérifié dans pg_amop et par EXPLAIN sur 150 000
+-- lignes, index trigramme présent et enable_seqscan désactivé: toujours un
+-- parcours séquentiel.
+--
+-- Ce qui reste indexable, c'est le workspace. Sans cet index, chaque
+-- extraction de message parcourt toutes les entités de la plateforme pour
+-- n'en garder qu'un workspace; avec lui, elle ne recalcule la similarité
+-- que sur les entités de ce workspace. Mesuré sur 100 000 entités réparties
+-- en 200 workspaces: 8,7 ms en parcours séquentiel contre 3,6 ms par
+-- parcours d'index, et l'écart se creuse avec le nombre total d'entités
+-- puisque seul le premier en dépend.
+--
+-- Un déploiement mono-workspace n'y gagne rien, par construction: son unique
+-- workspace contient toutes les lignes. C'est la limite assumée, notée dans
+-- la spec.
+CREATE INDEX graph_entities_workspace_idx ON graph_entities (workspace_id);

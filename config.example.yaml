@@ -1,0 +1,175 @@
+service:
+  listen: ":8080"
+  max_request_bytes: 1048576
+  consistency_default: eventual
+  debug_search: false
+  read_header_timeout: 5s
+  read_timeout: 30s
+  write_timeout: 60s
+  # Délai laissé aux requêtes en vol pour se terminer à l'arrêt (SIGTERM).
+  # Un job d'embedding en cours, lui, n'est pas borné par cette valeur mais
+  # par jobs.reclaim_after: un délai de terminaison Kubernetes calé sur
+  # shutdown_grace peut donc envoyer un SIGKILL en plein traitement d'un
+  # job, qui sera alors repris plus tard par Reclaim plutôt que perdu. C'est
+  # voulu (voir le commentaire de jobs.reclaim_after plus bas), mais à
+  # connaître avant de fixer le terminationGracePeriodSeconds du pod.
+  shutdown_grace: 30s
+  # Plafonds appliqués aux équivalents fournis par l'appelant dans une
+  # requête de recherche (candidate_limit, result_limit, token_budget):
+  # protègent un tenant d'un autre sur un service partagé, en bornant le
+  # coût qu'une requête peut demander avant qu'il n'atteigne le
+  # planificateur de requêtes.
+  max_candidate_limit: 500
+  max_result_limit: 50
+  max_token_budget: 20000
+
+database:
+  dsn: "${POSTGRES_DSN}"
+  max_conns: 10
+  max_conn_lifetime: 30m
+
+embedding:
+  base_url: "http://localhost:11434/v1"
+  model: "nomic-embed-text-v2-moe"
+  dimensions: 768
+  document_prefix: "search_document: "
+  query_prefix: "search_query: "
+  normalize: true
+  timeout: 30s
+
+extraction:
+  base_url: "${LLM_API_URL}"
+  model: "google/gemma-4-31B-it"
+  api_key: "${LLM_API_KEY}"
+  # En-têtes HTTP additionnels, si le fournisseur en demande.
+  # headers:
+  #   x-custom-header: "valeur"
+  timeout: 120s
+
+indexing:
+  strategy: contextualized_message
+  previous_messages: 2
+  max_chars: 1600
+  chars_per_token: 4
+  index_user_messages: true
+  index_agent_messages: true
+  index_system_messages: false
+  index_tool_messages: false
+  version: 1
+
+retrieval:
+  dense_top_k: 20
+  lexical_top_k: 20
+  graph_top_k: 20
+  final_top_k: 5
+  max_memory_tokens: 1200
+  expand_before: 2
+  expand_after: 2
+  rrf_k: 60
+  # null veut dire aucun plancher : une recherche rend alors toujours
+  # jusqu'à final_top_k résultats, même quand rien n'est vraiment
+  # pertinent, puisque la stratégie dense n'a pas de seuil absolu et rend
+  # ses voisins les plus proches quoi qu'il arrive. `make eval` imprime les
+  # distributions de score qui servent à choisir une valeur, sur un corpus
+  # de taille représentative de la production plutôt que sur le jeu de
+  # smoke test livré avec le dépôt. Ce seuil s'applique au score fusionné
+  # par RRF ; l'évaluation a montré que ce score n'encode qu'un rang, pas
+  # une distance, et ne peut donc pas servir de plancher de pertinence
+  # quelle que soit la valeur choisie : voir
+  # docs/evals/2026-09-10-recall-baseline.md.
+  minimum_score: null
+  # Plancher de pertinence, appliqué au score dense brut (une similarité
+  # cosinus) avant la fusion, et à lui seul: une correspondance lexicale et un
+  # fait du graphe restent des preuves de pertinence quelle que soit la
+  # distance cosinus. Contrairement à minimum_score ci-dessus, cette grandeur
+  # garde son sens hors de son classement.
+  #
+  # Sans lui, une question à laquelle rien ne répond rend quand même
+  # final_top_k souvenirs. 0.52 est le centre du plateau mesuré sur le corpus
+  # d'évaluation ([0.50 ; 0.55] donne 14/14) ; à recalibrer par corpus, voir
+  # docs/evals/. null restaure le comportement d'avant.
+  minimum_dense_score: 0.52
+  # Détection d'une question à laquelle rien ne répond dans ce workspace.
+  # Les candidats du dense sont écartés en bloc quand son meilleur candidat
+  # est à la fois lointain (sous no_answer_best_below) et noyé dans un
+  # voisinage plat (marge au meilleur sous no_answer_margin_below). La
+  # conjonction est le coeur du dispositif: ni la similarité absolue ni la
+  # marge ne séparent seules, et une question qui a une réponse présente
+  # toujours au moins l'un des deux signes.
+  #
+  # Mesuré sur le corpus d'évaluation: ferme trois des quatre questions sans
+  # réponse sans coûter une seule vraie réponse. Mettre l'un des deux à null
+  # désactive la détection. Voir docs/evals/.
+  no_answer_best_below: 0.58
+  no_answer_margin_below: 0.05
+
+graph:
+  # Reste à false par défaut : l'activer suppose un extraction.base_url
+  # joignable (le chargement de la configuration refuse de démarrer sinon),
+  # et surtout déclenche un appel au modèle d'extraction pour chaque message
+  # ingéré, plus les deux types de jobs graph_extract/graph_reeval qui vont
+  # avec. Un config.yaml qui n'a jamais demandé ce coût-là ne doit pas se le
+  # voir imposer par un changement de défaut.
+  enabled: false
+  # Les candidats du graphe n'entrent pas dans la fusion: mesuré sur le corpus
+  # étendu, ils font tomber le rappel global de 73 % à 69 %, en gagnant deux
+  # requêtes que le dense et le lexical résolvent de toute façon et en perdant
+  # trois questions sans réponse et une temporelle. Les faits, eux, vont dans
+  # le context_block, et c'est là que le graphe sert.
+  fuse_candidates: false
+  context_messages: 4
+  # Borné à 3 au chargement (au-delà, erreur de démarrage) : une CTE
+  # récursive sur un graphe dense explose en temps de requête, et la
+  # section 8.2 de la spec ne demande jamais plus de deux sauts.
+  max_hops: 2
+  # Doit venir du vocabulaire de prédicats que le prompt d'extraction impose
+  # au modèle (voir internal/graph/schema.go). Un type nommé ici que le modèle
+  # ne produit jamais rend tout le chaînage temporel inerte sans qu'aucune
+  # erreur ne se déclenche : c'est arrivé, le défaut était has_observed_state
+  # pendant que le modèle produisait a_pour_etat, et l'évaluation contre le
+  # vrai extracteur est la seule chose qui l'a montré. Le test
+  # TestSingleValuedDefaultsExistentDansLePrompt garde désormais l'accord.
+  single_valued_relations: ["a_pour_etat"]
+
+access:
+  default_scope: participants
+
+jobs:
+  workers: 2
+  retry_limit: 5
+  poll_interval: 1s
+  # Ancienneté au-delà de laquelle un job resté "running" est considéré
+  # abandonné par un worker mort (OOM kill, drain de noeud, SIGKILL pendant
+  # un déploiement) et repris. Doit rester au moins le double du timeout de
+  # traitement d'un job (jobs.HandlerTimeout, 5 minutes dans le code): un
+  # handler lent mais vivant ne doit jamais se faire voler son job. Le
+  # service refuse de démarrer si cette valeur descend en dessous de ce
+  # minimum (10 minutes).
+  reclaim_after: 10m
+
+# Réordonnancement des extraits par un modèle qui lit la question et les
+# extraits ensemble. Désactivé, et pas par prudence de façade: c'est le seul
+# appel de modèle du chemin de recherche, ce que le critère 9 de la spec
+# interdit de rendre nécessaire.
+#
+# La mesure, sur le corpus étendu: il fait passer le Recall@5 de 73 % à 78 %,
+# en récupérant les deux seules requêtes dont la réponse était entre le rang
+# six et le rang dix, pour environ 220 ms par recherche. Il atteint exactement
+# le plafond théorique, puisque le rappel à 20 égale le rappel à 10. Aucun
+# signal déjà disponible ne les remonte: l'embedder préfère réellement les
+# distracteurs, et l'écart de score est trop grand pour un biais de récence.
+#
+# Une panne du modèle fait retomber sur l'ordre de la fusion, elle ne fait
+# jamais échouer la recherche.
+rerank:
+  enabled: false
+  # Doit dépasser final_top_k, sinon il n'y a rien à réordonner. Au-delà de
+  # deux fois final_top_k il n'y a plus de marge, seulement du coût.
+  pool: 10
+  base_url: "${LLM_API_URL}"
+  model: "google/gemma-4-31B-it"
+  api_key: "${LLM_API_KEY}"
+  # En-têtes HTTP additionnels, si le fournisseur en demande.
+  # headers:
+  #   x-custom-header: "valeur"
+  timeout: 20s
