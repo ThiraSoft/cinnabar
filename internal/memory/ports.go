@@ -130,6 +130,21 @@ type CandidateQuery struct {
 	WorkspaceID  string
 	RequesterKey string
 	Limit        int
+
+	// ConversationIDs et MetadataFilter s'appliquent dans le SQL de chaque
+	// stratégie, avant le LIMIT, en plus de la clause d'ACL. Nil ne
+	// restreint rien.
+	ConversationIDs []string
+	MetadataFilter  *MetadataFilter
+}
+
+// ListQuery décrit un listage de messages, du plus récent au plus ancien,
+// sous la même règle d'accès que la recherche. BeforeAt et BeforeID, posés
+// ensemble, reprennent après le dernier message d'une page précédente.
+type ListQuery struct {
+	CandidateQuery
+	BeforeAt *time.Time
+	BeforeID uuid.UUID
 }
 
 // DenseQuery est une CandidateQuery accompagnée du vecteur de la requête déjà

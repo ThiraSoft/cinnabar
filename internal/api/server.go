@@ -24,6 +24,12 @@ type Finder interface {
 	Search(ctx context.Context, req memory.SearchRequest) (memory.SearchResponse, error)
 }
 
+// Lister porte le listage des messages (POST /v1/messages/list), sous la
+// même règle d'accès que la recherche.
+type Lister interface {
+	ListMessages(ctx context.Context, q memory.ListQuery) ([]memory.Message, error)
+}
+
 type Resolver interface {
 	Resolve(ctx context.Context, token string) (*memory.Principal, error)
 }
@@ -95,6 +101,7 @@ type Server struct {
 	ops         Ops
 	acl         ACLStore
 	convDeleter ConversationDeleter
+	lister      Lister
 	http        *http.Server
 
 	// mu protège listener, posé par ListenAndServe et lu par Addr depuis un
@@ -135,11 +142,19 @@ func (s *Server) WithACL(acl ACLStore, del ConversationDeleter) *Server {
 	return s
 }
 
+// WithLister câble le listage des messages. Optionnel comme WithACL, et pour
+// la même raison: nil laisse la route répondre 501.
+func (s *Server) WithLister(l Lister) *Server {
+	s.lister = l
+	return s
+}
+
 func (s *Server) Handler() http.Handler {
 	// Routes authentifiées. Le motif inclut la méthode, donc net/http rend un
 	// 405 de lui-même sur une méthode non déclarée.
 	authed := http.NewServeMux()
 	authed.HandleFunc("POST /v1/messages", s.handlePostMessage)
+	authed.HandleFunc("POST /v1/messages/list", s.handleListMessages)
 	authed.HandleFunc("PATCH /v1/messages/{message_id}", s.handlePatchMessage)
 	authed.HandleFunc("DELETE /v1/messages/{message_id}", s.handleDeleteMessage)
 	authed.HandleFunc("POST /v1/conversations", s.handlePostConversation)

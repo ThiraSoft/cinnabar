@@ -176,7 +176,8 @@ func run(configPath string, runAPI, runWorkers bool) error {
 		// pas de goroutine séparée pour Shutdown qui entrerait en course
 		// avec celle qui sert.
 		srv := api.NewServer(cfg, clients, ingester, ingester, finder, convs, ops).
-			WithACL(aclRepo, convs)
+			WithACL(aclRepo, convs).
+			WithLister(searchRepo)
 		wg.Add(1)
 		go func() {
 			defer wg.Done()

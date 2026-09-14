@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"fmt"
+	"sort"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -58,6 +59,8 @@ WHERE mu.workspace_id = $1
   AND mu.active
   AND mu.embedding IS NOT NULL
   AND (mu.embedding <=> $3) <> 'NaN'
+  AND ($5::text[] IS NULL OR mu.conversation_id = ANY($5::text[]))
+  AND ($6::jsonb IS NULL OR cinnabar_metadata_match(m.metadata, $6::jsonb))
   AND (
 	r.conversation_id IS NOT NULL
 	OR EXISTS (
@@ -91,15 +94,39 @@ func (r *SearchRepo) SearchDense(ctx context.Context,
 		q.Limit = 20
 	}
 
-	rows, err := r.pool.Query(ctx, denseSQL,
-		q.WorkspaceID, q.RequesterKey, pgvector.NewVector(q.Embedding), q.Limit)
+	convs, filter, err := restriction(q.CandidateQuery)
+	if err != nil {
+		return nil, fmt.Errorf("dense search: %w", err)
+	}
+
+	// Un filtre ajouté à un parcours HNSW peut rendre moins de lignes que
+	// la limite: l'index ne visite que ef_search voisins, et le WHERE les
+	// élimine ensuite. Le parcours itératif de pgvector 0.8 relance la
+	// visite jusqu'à remplir la limite. Il ne vaut que pour la transaction,
+	// d'où la transaction, et seulement quand un filtre est posé: sans
+	// filtre, rien ne change au chemin historique.
+	var db querier = r.pool
+	if convs != nil || filter != nil {
+		tx, err := r.pool.Begin(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("dense search: begin: %w", err)
+		}
+		defer func() { _ = tx.Rollback(ctx) }()
+		if _, err := tx.Exec(ctx, `SET LOCAL hnsw.iterative_scan = relaxed_order`); err != nil {
+			return nil, fmt.Errorf("dense search: iterative scan: %w", err)
+		}
+		db = tx
+	}
+
+	rows, err := db.Query(ctx, denseSQL,
+		q.WorkspaceID, q.RequesterKey, pgvector.NewVector(q.Embedding), q.Limit,
+		convs, filter)
 	if err != nil {
 		return nil, fmt.Errorf("dense search: %w", err)
 	}
 	defer rows.Close()
 
 	var out []memory.Candidate
-	rank := 0
 	for rows.Next() {
 		var (
 			unitID uuid.UUID
@@ -109,16 +136,22 @@ func (r *SearchRepo) SearchDense(ctx context.Context,
 			&c.StartSequence, &c.EndSequence, &c.RawScore, &c.AccessReason); err != nil {
 			return nil, fmt.Errorf("dense search: scan: %w", err)
 		}
-		// Les rangs sont 1-based et attribués dans l'ordre où SQL rend les
-		// lignes: la fusion multi-stratégies en dépend, donc on ne réordonne
-		// jamais ici.
-		rank++
 		id := unitID
-		c.Strategy, c.Rank, c.MemoryUnitID = "dense", rank, &id
+		c.Strategy, c.MemoryUnitID = "dense", &id
 		out = append(out, c)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("dense search: %w", err)
+	}
+
+	// relaxed_order peut rendre des voisins légèrement désordonnés. Le tri
+	// stable ne change rien quand l'ordre est déjà strict, et il rend à la
+	// fusion le classement par similarité qu'elle attend.
+	sort.SliceStable(out, func(i, j int) bool { return out[i].RawScore > out[j].RawScore })
+	// Les rangs sont 1-based et attribués après ce tri: la fusion
+	// multi-stratégies en dépend.
+	for i := range out {
+		out[i].Rank = i + 1
 	}
 	return out, nil
 }

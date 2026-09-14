@@ -87,6 +87,8 @@ LEFT JOIN LATERAL (
 WHERE m.workspace_id = $1
   AND m.deleted_at IS NULL
   AND m.tsv @@ q.tsq
+  AND ($5::text[] IS NULL OR m.conversation_id = ANY($5::text[]))
+  AND ($6::jsonb IS NULL OR cinnabar_metadata_match(m.metadata, $6::jsonb))
   AND (
 	r.conversation_id IS NOT NULL
 	OR EXISTS (
@@ -131,8 +133,13 @@ func (r *SearchRepo) SearchLexical(ctx context.Context,
 		q.Limit = 20
 	}
 
+	convs, filter, err := restriction(q.CandidateQuery)
+	if err != nil {
+		return nil, fmt.Errorf("lexical search: %w", err)
+	}
+
 	rows, err := r.pool.Query(ctx, lexicalSQL,
-		q.WorkspaceID, q.RequesterKey, q.Text, q.Limit)
+		q.WorkspaceID, q.RequesterKey, q.Text, q.Limit, convs, filter)
 	if err != nil {
 		return nil, fmt.Errorf("lexical search: %w", err)
 	}

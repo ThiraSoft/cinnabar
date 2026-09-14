@@ -3,6 +3,8 @@ package api
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/ThiraSoft/cinnabar/internal/memory"
 )
 
 type postMessageRequest struct {
@@ -68,6 +70,34 @@ type searchRequest struct {
 	TokenBudget         int                `json:"token_budget"`
 	ExcludeMessageIDs   []string           `json:"exclude_message_ids"`
 	IncludeContextBlock bool               `json:"include_context_block"`
+
+	ConversationIDs []string               `json:"conversation_ids"`
+	MetadataFilter  *memory.MetadataFilter `json:"metadata_filter"`
+}
+
+type listMessagesRequest struct {
+	WorkspaceID     string                 `json:"workspace_id"`
+	RequesterKey    string                 `json:"requester_key"`
+	ConversationIDs []string               `json:"conversation_ids"`
+	MetadataFilter  *memory.MetadataFilter `json:"metadata_filter"`
+	Limit           int                    `json:"limit"`
+	Cursor          string                 `json:"cursor"`
+}
+
+type listedMessageDTO struct {
+	MessageID      string          `json:"message_id"`
+	ConversationID string          `json:"conversation_id"`
+	SequenceNumber int64           `json:"sequence_number"`
+	AuthorKey      string          `json:"author_key"`
+	Role           string          `json:"role"`
+	Content        string          `json:"content"`
+	CreatedAt      time.Time       `json:"created_at"`
+	Metadata       json.RawMessage `json:"metadata"`
+}
+
+type listMessagesResponse struct {
+	Messages   []listedMessageDTO `json:"messages"`
+	NextCursor string             `json:"next_cursor,omitempty"`
 }
 
 type memoryDTO struct {
@@ -82,6 +112,7 @@ type memoryDTO struct {
 	MatchedEntities  []string           `json:"matched_entities,omitempty"`
 	AccessReason     string             `json:"access_reason"`
 	SourceType       string             `json:"source_type"`
+	Metadata         json.RawMessage    `json:"metadata,omitempty"`
 }
 
 // graphFactDTO expose une relation du graphe telle que rendue par la

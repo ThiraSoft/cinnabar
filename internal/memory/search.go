@@ -2,6 +2,7 @@ package memory
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -122,6 +123,12 @@ func (s *Searcher) Search(ctx context.Context, req SearchRequest) (SearchRespons
 			return SearchResponse{}, fmt.Errorf("%w %q", ErrUnknownStrategy, name)
 		}
 	}
+	// Refusé ici, avant toute stratégie: un filtre invalide refusé par
+	// chacune d'elles ferait échouer la recherche comme une panne des trois,
+	// un 500 pour une faute de l'appelant.
+	if err := req.MetadataFilter.Validate(); err != nil {
+		return SearchResponse{}, err
+	}
 
 	s.applyDefaults(&req)
 
@@ -212,11 +219,8 @@ func (s *Searcher) Search(ctx context.Context, req SearchRequest) (SearchRespons
 				return
 			}
 			out, err := s.dense.SearchDense(ctx, DenseQuery{
-				CandidateQuery: CandidateQuery{
-					WorkspaceID: req.WorkspaceID, RequesterKey: req.RequesterKey,
-					Limit: denseLimit,
-				},
-				Embedding: vec,
+				CandidateQuery: restricted(req, denseLimit),
+				Embedding:      vec,
 			})
 			if err != nil {
 				record("dense", err)
@@ -234,11 +238,8 @@ func (s *Searcher) Search(ctx context.Context, req SearchRequest) (SearchRespons
 		go func() {
 			defer wg.Done()
 			out, err := s.lexical.SearchLexical(ctx, LexicalQuery{
-				CandidateQuery: CandidateQuery{
-					WorkspaceID: req.WorkspaceID, RequesterKey: req.RequesterKey,
-					Limit: lexicalLimit,
-				},
-				Text: req.Query,
+				CandidateQuery: restricted(req, lexicalLimit),
+				Text:           req.Query,
 			})
 			if err != nil {
 				record("lexical", err)
@@ -262,14 +263,11 @@ func (s *Searcher) Search(ctx context.Context, req SearchRequest) (SearchRespons
 				}
 			}
 			out, err := s.graph.SearchGraph(ctx, GraphQuery{
-				CandidateQuery: CandidateQuery{
-					WorkspaceID: req.WorkspaceID, RequesterKey: req.RequesterKey,
-					Limit: graphLimit,
-				},
-				Subjects:  subjects,
-				Text:      req.Query,
-				MaxHops:   s.cfg.Graph.MaxHops,
-				Embedding: queryVec,
+				CandidateQuery: restricted(req, graphLimit),
+				Subjects:       subjects,
+				Text:           req.Query,
+				MaxHops:        s.cfg.Graph.MaxHops,
+				Embedding:      queryVec,
 			})
 			if err != nil {
 				record("graph", err)
@@ -517,6 +515,17 @@ func (s *Searcher) Search(ctx context.Context, req SearchRequest) (SearchRespons
 	return resp, nil
 }
 
+// restricted construit la CandidateQuery d'une stratégie: les mêmes
+// restrictions pour les trois, seule la limite change.
+func restricted(req SearchRequest, limit int) CandidateQuery {
+	return CandidateQuery{
+		WorkspaceID: req.WorkspaceID, RequesterKey: req.RequesterKey,
+		Limit:           limit,
+		ConversationIDs: req.ConversationIDs,
+		MetadataFilter:  req.MetadataFilter,
+	}
+}
+
 // defaultGraphLimit est le repli quand ni la requête ni la configuration ne
 // donnent de limite exploitable pour le graphe. Même valeur que le défaut de
 // graph_top_k dans config.
@@ -669,6 +678,7 @@ func (s *Searcher) toResults(ctx context.Context, excerpts []Excerpt) ([]Result,
 			sb       strings.Builder
 			sources  = make([]uuid.UUID, 0, len(e.Messages))
 			occurred time.Time
+			meta     json.RawMessage
 		)
 		for i, m := range e.Messages {
 			if i > 0 {
@@ -678,6 +688,9 @@ func (s *Searcher) toResults(ctx context.Context, excerpts []Excerpt) ([]Result,
 			sources = append(sources, m.MessageID)
 			if m.MessageID == e.AnchorMessageID || occurred.IsZero() {
 				occurred = m.CreatedAt
+			}
+			if m.MessageID == e.AnchorMessageID {
+				meta = m.Metadata
 			}
 		}
 
@@ -703,6 +716,7 @@ func (s *Searcher) toResults(ctx context.Context, excerpts []Excerpt) ([]Result,
 			MatchedEntities:  e.MatchedEntities,
 			AccessReason:     e.AccessReason,
 			SourceType:       "original_messages",
+			Metadata:         meta,
 		})
 	}
 	return out, nil

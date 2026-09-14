@@ -83,6 +83,7 @@ curl -s -X POST localhost:8080/v1/memories/search \
 | Méthode | Route | Rôle |
 |---|---|---|
 | `POST` | `/v1/messages` | Enregistrer un message |
+| `POST` | `/v1/messages/list` | Lister les messages lisibles, filtrés |
 | `PATCH` | `/v1/messages/{id}` | Modifier un message |
 | `DELETE` | `/v1/messages/{id}` | Supprimer un message |
 | `POST` | `/v1/conversations` | Déclarer une conversation et son scope |

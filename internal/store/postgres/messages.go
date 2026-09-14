@@ -36,13 +36,13 @@ func NewMessageRepo(pool *pgxpool.Pool) *MessageRepo { return &MessageRepo{pool:
 
 const messageColumns = `
 	message_id, conversation_id, workspace_id, sequence_number,
-	author_key, role, content, created_at, edited_at, deleted_at`
+	author_key, role, content, created_at, edited_at, deleted_at, metadata`
 
 func scanMessage(row pgx.Row) (memory.Message, error) {
 	var m memory.Message
 	err := row.Scan(&m.MessageID, &m.ConversationID, &m.WorkspaceID,
 		&m.SequenceNumber, &m.AuthorKey, &m.Role, &m.Content,
-		&m.CreatedAt, &m.EditedAt, &m.DeletedAt)
+		&m.CreatedAt, &m.EditedAt, &m.DeletedAt, &m.Metadata)
 	return m, err
 }
 

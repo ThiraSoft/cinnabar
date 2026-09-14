@@ -37,6 +37,7 @@ func pinnedQueries() map[string]string {
 		"denseSQL":   denseSQL,
 		"lexicalSQL": lexicalSQL,
 		"graphSQL":   graphSQL,
+		"listSQL":    listSQL,
 	}
 }
 

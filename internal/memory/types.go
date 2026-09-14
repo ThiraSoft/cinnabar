@@ -6,6 +6,7 @@
 package memory
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/google/uuid"
@@ -31,6 +32,9 @@ type Message struct {
 	CreatedAt      time.Time
 	EditedAt       *time.Time
 	DeletedAt      *time.Time
+	// Metadata est l'objet JSON fourni par l'appelant à l'écriture, rendu
+	// tel quel. Le service n'en lit aucune clé, il ne fait que le filtrer.
+	Metadata json.RawMessage
 }
 
 // Unit est une unité d'indexation vectorielle: un message contextualisé.
@@ -123,6 +127,12 @@ type SearchRequest struct {
 	TokenBudget         int
 	ExcludeMessageIDs   []uuid.UUID
 	IncludeContextBlock bool
+
+	// ConversationIDs et MetadataFilter restreignent les ancres possibles,
+	// en plus de la règle d'accès et jamais à sa place. Vides, ils ne
+	// restreignent rien.
+	ConversationIDs []string
+	MetadataFilter  *MetadataFilter
 }
 
 // Result est un souvenir rendu à l'appelant. SourceMessageIDs n'est jamais
@@ -140,6 +150,9 @@ type Result struct {
 	MatchedEntities  []string
 	AccessReason     string
 	SourceType       string
+	// Metadata sont celles du message d'ancrage, pas celles de la fenêtre:
+	// c'est sur elles que MetadataFilter a porté.
+	Metadata json.RawMessage
 }
 
 // SearchDebug porte des compteurs de diagnostic, absents de la réponse par

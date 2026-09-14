@@ -35,6 +35,29 @@ const (
 // participants de la conversation courante.
 const maxKnownSubjects = 32
 
+// maxConversationIDs borne conversation_ids, pour la même raison que
+// maxKnownSubjects: la liste part en paramètre d'un prédicat évalué sur
+// chaque ligne candidate.
+const maxConversationIDs = 64
+
+// restrictionError rend le message d'un 400 pour des restrictions de
+// recherche ou de listage mal formées, vide si elles sont valides. Partagée
+// par les deux routes pour qu'elles refusent exactement la même chose.
+func restrictionError(convs []string, filter *memory.MetadataFilter) string {
+	if len(convs) > maxConversationIDs {
+		return fmt.Sprintf("conversation_ids must not exceed %d entries", maxConversationIDs)
+	}
+	for _, c := range convs {
+		if c == "" {
+			return "conversation_ids must not contain empty values"
+		}
+	}
+	if err := filter.Validate(); err != nil {
+		return err.Error()
+	}
+	return ""
+}
+
 func capOrDefault(configured, fallback int) int {
 	if configured > 0 {
 		return configured
@@ -109,6 +132,10 @@ func (s *Server) handleSearch(w http.ResponseWriter, r *http.Request) {
 			fmt.Sprintf("known_subjects must not exceed %d entries", maxKnownSubjects))
 		return
 	}
+	if msg := restrictionError(req.ConversationIDs, req.MetadataFilter); msg != "" {
+		writeError(w, http.StatusBadRequest, msg)
+		return
+	}
 
 	excluded := make([]uuid.UUID, 0, len(req.ExcludeMessageIDs))
 	for _, raw := range req.ExcludeMessageIDs {
@@ -140,6 +167,8 @@ func (s *Server) handleSearch(w http.ResponseWriter, r *http.Request) {
 		TokenBudget:         req.TokenBudget,
 		ExcludeMessageIDs:   excluded,
 		IncludeContextBlock: req.IncludeContextBlock,
+		ConversationIDs:     req.ConversationIDs,
+		MetadataFilter:      req.MetadataFilter,
 	})
 	if err != nil {
 		// Un nom de stratégie inconnu est une faute de l'appelant (une faute
@@ -172,6 +201,7 @@ func (s *Server) handleSearch(w http.ResponseWriter, r *http.Request) {
 			MatchedEntities: m.MatchedEntities,
 			AccessReason:    m.AccessReason,
 			SourceType:      m.SourceType,
+			Metadata:        m.Metadata,
 		}
 		for _, id := range m.SourceMessageIDs {
 			dto.SourceMessageIDs = append(dto.SourceMessageIDs, id.String())

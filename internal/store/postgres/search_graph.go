@@ -290,6 +290,8 @@ source_rows AS (
 	) mu ON TRUE
 	WHERE m.workspace_id = $1
 	  AND m.deleted_at IS NULL
+	  AND ($11::text[] IS NULL OR m.conversation_id = ANY($11::text[]))
+	  AND ($12::jsonb IS NULL OR cinnabar_metadata_match(m.metadata, $12::jsonb))
 	  AND (
 		r.conversation_id IS NOT NULL
 		OR EXISTS (
@@ -387,10 +389,15 @@ func (r *SearchRepo) SearchGraph(ctx context.Context,
 		return memory.GraphResult{}, nil
 	}
 
+	convs, filter, err := restriction(q.CandidateQuery)
+	if err != nil {
+		return memory.GraphResult{}, fmt.Errorf("graph search: %w", err)
+	}
+
 	rows, err := r.pool.Query(ctx, graphSQL,
 		q.WorkspaceID, q.RequesterKey, seeds, text, q.MaxHops, q.Limit,
 		candidateSimilarityThreshold, maxGraphSourcesPerRelation, maxSeedEntities,
-		queryVector(q.Embedding))
+		queryVector(q.Embedding), convs, filter)
 	if err != nil {
 		return memory.GraphResult{}, fmt.Errorf("graph search: %w", err)
 	}

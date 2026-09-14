@@ -51,6 +51,38 @@ sur de vraies conversations : c'est le rôle de `go run ./eval` (voir
 résultats pertinents et non pertinents une fois qu'un corpus de taille
 représentative existe.
 
+## Restreindre une recherche
+
+`conversation_ids` borne les ancres possibles à quelques conversations, et
+`metadata_filter` à des messages dont les metadata répondent à une condition.
+Les deux s'ajoutent à la règle d'accès et ne peuvent que retirer des
+résultats. Chaque mémoire rendue porte les metadata de son message d'ancrage.
+
+```json
+{
+  "workspace_id": "ws1", "requester_key": "agent:village",
+  "query": "Qu'est-ce que Ricardo m'a promis ?",
+  "conversation_ids": ["nine|player:ricardo", "nine|lore"],
+  "metadata_filter": {"all": [
+    {"key": "belief", "op": "ne", "value": "non"},
+    {"any": [
+      {"key": "min_affinity", "op": "lte", "value": 40},
+      {"key": "lore_id", "op": "in", "value": ["nine-1"]}
+    ]}
+  ]}
+}
+```
+
+Opérateurs `eq`, `ne`, `lt`, `lte`, `gt`, `gte`, `in`, `exists`, groupes
+`all` et `any`. Une clé absente rend toute feuille fausse sauf `ne` et
+`exists: false`. `POST /v1/messages/list` accepte les mêmes restrictions et
+rend les messages du plus récent au plus ancien, page par page. Le détail est
+dans la [spécification](design/2026-09-14-filtres-metadata-design.md).
+
+Le filtre choisit les ancres, pas le contexte : avec `expand_before` ou
+`expand_after` non nuls, un extrait peut contenir des voisins qui ne le
+satisfont pas.
+
 ## Partage explicite et suppression de conversation
 
 Un souvenir de scope `private` ou `explicit` n'est visible que par le
