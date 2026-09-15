@@ -1,5 +1,5 @@
-github.com/ThiraSoft/golem v0.32.1 h1:NQFFxSqEN4t72PvZu8htxIthO1W6+aZTVMatp0i1sw8=
-github.com/ThiraSoft/golem v0.32.1/go.mod h1:6Pw/ht0ts2t18IN52MoxuBD/NdxoRQ8C0ZuJNmjrNzw=
+github.com/ThiraSoft/golem v0.32.2 h1:NwIpKaY9tDSOshHvq+cAVUTGi+vUtzWBCmqSfxLx2Ho=
+github.com/ThiraSoft/golem v0.32.2/go.mod h1:6Pw/ht0ts2t18IN52MoxuBD/NdxoRQ8C0ZuJNmjrNzw=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
