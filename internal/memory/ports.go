@@ -32,6 +32,14 @@ type AppendInput struct {
 // requête.
 type AppendJob struct {
 	Type string
+
+	// Debounce et FlushAfter ne servent qu'à graph_extract, qui n'est pas un
+	// job par message mais un job par conversation: le repo repousse le job
+	// en attente de la conversation au lieu d'en poser un nouveau. Il part
+	// Debounce après le dernier message, ou tout de suite dès que FlushAfter
+	// messages attendent d'être extraits.
+	Debounce   time.Duration
+	FlushAfter int
 }
 
 // AppendResult porte le message écrit et ce qu'il faut pour construire son

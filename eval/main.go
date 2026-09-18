@@ -145,6 +145,9 @@ func run(datasetPath, configPath string, topK int, keep, audit bool) error {
 		extractGraph memory.GraphExtractor
 	)
 	if cfg.Graph.Enabled {
+		// drainGraphExtraction ne réclame que les jobs éligibles: sans ça,
+		// le délai d'inactivité les laisserait tous en attente.
+		cfg.Graph.ExtractionIdle = 0
 		graphRepo = postgres.NewGraphRepo(pool)
 		graphFinder = searchRepo
 		extractGraph = graph.NewExtractor(llm.NewChat(cfg.Extraction), cfg.Graph)
@@ -282,7 +285,7 @@ func run(datasetPath, configPath string, topK int, keep, audit bool) error {
 		// poser, avec le même handler que le service en production.
 		extractStart := time.Now()
 		n, err := drainGraphExtraction(ctx, jobRepo,
-			jobs.GraphExtractHandler(cfg, msgs, graphRepo, extractGraph, embedder))
+			jobs.GraphExtractHandler(cfg, msgs, msgs, jobRepo, graphRepo, extractGraph, embedder))
 		if err != nil {
 			return fmt.Errorf(
 				"extraction du graphe: %w (l'extracteur configuré sur %s "+

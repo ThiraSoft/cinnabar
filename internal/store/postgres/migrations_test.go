@@ -50,8 +50,8 @@ func TestMigrateIsIdempotent(t *testing.T) {
 		`SELECT count(*) FROM schema_migrations`).Scan(&n); err != nil {
 		t.Fatal(err)
 	}
-	if n != 6 {
-		t.Errorf("schema_migrations = %d lignes, want 6", n)
+	if n != 7 {
+		t.Errorf("schema_migrations = %d lignes, want 7", n)
 	}
 
 	// Vérifie explicitement que les fichiers de migration sont enregistrés
@@ -85,6 +85,7 @@ func TestMigrateIsIdempotent(t *testing.T) {
 		"004_graph_entities_workspace_index.sql",
 		"005_graph_relations_embedding.sql",
 		"006_metadata_filter.sql",
+		"007_graph_extraction_window.sql",
 	}
 	if len(names) != len(want) {
 		t.Fatalf("schema_migrations noms = %v, want %v", names, want)
@@ -271,7 +272,7 @@ func TestMigrateConcurrentIsSafe(t *testing.T) {
 		`SELECT count(*) FROM schema_migrations`).Scan(&count); err != nil {
 		t.Fatal(err)
 	}
-	if count != 6 {
-		t.Errorf("schema_migrations = %d lignes, want 6", count)
+	if count != 7 {
+		t.Errorf("schema_migrations = %d lignes, want 7", count)
 	}
 }

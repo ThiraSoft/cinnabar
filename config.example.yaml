@@ -128,6 +128,12 @@ graph:
   # le context_block, et c'est là que le graphe sert.
   fuse_candidates: false
   context_messages: 4
+  # Un appel au modèle par fenêtre de messages, pas par message. La
+  # conversation est extraite quand elle se tait extraction_idle, ou dès que
+  # extraction_batch messages attendent. extraction_batch: 1 revient à un
+  # appel par message.
+  extraction_batch: 12
+  extraction_idle: 30s
   # Borné à 3 au chargement (au-delà, erreur de démarrage) : une CTE
   # récursive sur un graphe dense explose en temps de requête, et la
   # section 8.2 de la spec ne demande jamais plus de deux sauts.

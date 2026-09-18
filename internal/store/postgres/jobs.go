@@ -62,14 +62,26 @@ func (r *JobRepo) Enqueue(ctx context.Context, jobType, workspaceID,
 
 // Claim réclame un job prêt. SKIP LOCKED laisse les autres workers avancer sur
 // les jobs voisins au lieu d'attendre celui-ci. Rend nil quand rien n'est prêt.
+//
+// Une extraction de graphe n'est jamais réclamée tant qu'une autre tourne
+// sur la même conversation: les deux liraient la même position et
+// soumettraient la même fenêtre au modèle. Le résultat serait juste, les
+// relations ayant des identifiants déterministes, mais l'appel serait payé
+// deux fois. Deux workers qui réclament au même instant deux jobs en attente
+// de la même conversation passent encore; ce doublon ne naît que d'une
+// reprise après échec, et coûte un appel.
 func (r *JobRepo) Claim(ctx context.Context) (*Job, error) {
 	var j Job
 	err := r.pool.QueryRow(ctx, `
 		UPDATE jobs SET status = 'running', updated_at = now()
 		WHERE job_id = (
-			SELECT job_id FROM jobs
-			WHERE status = 'pending' AND run_after <= now()
-			ORDER BY run_after, job_id
+			SELECT p.job_id FROM jobs p
+			WHERE p.status = 'pending' AND p.run_after <= now()
+			  AND NOT (p.job_type = 'graph_extract' AND EXISTS (
+			      SELECT 1 FROM jobs r
+			      WHERE r.job_type = 'graph_extract' AND r.status = 'running'
+			        AND r.conversation_id = p.conversation_id))
+			ORDER BY p.run_after, p.job_id
 			FOR UPDATE SKIP LOCKED
 			LIMIT 1
 		)
@@ -84,6 +96,63 @@ func (r *JobRepo) Claim(ctx context.Context) (*Job, error) {
 		return nil, fmt.Errorf("claim job: %w", err)
 	}
 	return &j, nil
+}
+
+// ScheduleGraphExtract rend éligible tout de suite le job d'extraction de
+// la conversation, en le posant s'il n'y en a pas en attente. Le verrou pris
+// sur la ligne de la conversation est celui qu'Append prend pour attribuer
+// une séquence: il sérialise cette pose avec celles des messages écrits en
+// même temps, qui sinon poseraient chacun leur job.
+func (r *JobRepo) ScheduleGraphExtract(ctx context.Context, workspaceID, conversationID string) error {
+	tx, err := r.pool.Begin(ctx)
+	if err != nil {
+		return fmt.Errorf("begin: %w", err)
+	}
+	defer func() { _ = tx.Rollback(ctx) }()
+	var seq int64
+	err = tx.QueryRow(ctx, `SELECT next_sequence FROM conversations
+		WHERE conversation_id = $1 FOR UPDATE`, conversationID).Scan(&seq)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return nil
+	}
+	if err != nil {
+		return fmt.Errorf("lock conversation: %w", err)
+	}
+	if err := scheduleGraphExtractInTx(ctx, tx, workspaceID, conversationID,
+		[]byte(`{}`), seq, 0, 1); err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
+}
+
+// scheduleGraphExtractInTx pose ou repousse le job graph_extract en attente
+// d'une conversation. L'appelant tient le verrou de ligne de la conversation.
+// Le job part debounce après maintenant, ou maintenant dès que les messages
+// non extraits, jusqu'à la séquence seq, atteignent flushAfter.
+func scheduleGraphExtractInTx(ctx context.Context, tx pgx.Tx, workspaceID, conversationID string,
+	payload []byte, seq int64, debounce time.Duration, flushAfter int) error {
+
+	if flushAfter < 1 {
+		flushAfter = 1
+	}
+	_, err := tx.Exec(ctx, `
+		WITH due AS (
+			SELECT CASE WHEN $4 - graph_extracted_seq >= $5 THEN now()
+			            ELSE now() + make_interval(secs => $6) END AS at
+			FROM conversations WHERE conversation_id = $2
+		), moved AS (
+			UPDATE jobs SET run_after = (SELECT at FROM due), payload = $3, updated_at = now()
+			WHERE job_type = 'graph_extract' AND status = 'pending' AND conversation_id = $2
+			RETURNING job_id
+		)
+		INSERT INTO jobs (job_type, workspace_id, conversation_id, payload, run_after)
+		SELECT 'graph_extract', $1, $2, $3, (SELECT at FROM due)
+		WHERE NOT EXISTS (SELECT 1 FROM moved)`,
+		workspaceID, conversationID, payload, seq, flushAfter, debounce.Seconds())
+	if err != nil {
+		return fmt.Errorf("schedule graph_extract: %w", err)
+	}
+	return nil
 }
 
 // Complete marque un job terminé. La clause status = 'running' n'est pas

@@ -277,6 +277,16 @@ func enqueueInTx(ctx context.Context, tx pgx.Tx, jobs []memory.AppendJob,
 		return fmt.Errorf("encode job payload: %w", err)
 	}
 	for _, j := range jobs {
+		// graph_extract est un job par conversation: on repousse celui qui
+		// attend au lieu d'en poser un par message.
+		if j.Type == "graph_extract" {
+			if err := scheduleGraphExtractInTx(ctx, tx, written.WorkspaceID,
+				written.ConversationID, payload, written.SequenceNumber,
+				j.Debounce, j.FlushAfter); err != nil {
+				return err
+			}
+			continue
+		}
 		if _, err := tx.Exec(ctx, `
 			INSERT INTO jobs (job_type, workspace_id, conversation_id, payload)
 			VALUES ($1, $2, $3, $4)`,
@@ -569,3 +579,60 @@ func (r *MessageRepo) SoftDeleteAndDeactivate(ctx context.Context,
 	}
 	return m, anchors, nil
 }
+
+// GraphPending rend au plus limit messages de la conversation après sa
+// position d'extraction, supprimés compris, et dit s'il en reste au-delà.
+// Une conversation disparue rend memory.ErrNotFound.
+func (r *MessageRepo) GraphPending(ctx context.Context, conv string,
+	limit int) ([]memory.Message, bool, error) {
+
+	var through int64
+	err := r.pool.QueryRow(ctx, `SELECT graph_extracted_seq FROM conversations
+		WHERE conversation_id = $1`, conv).Scan(&through)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return nil, false, fmt.Errorf("graph progress: %w", memory.ErrNotFound)
+	}
+	if err != nil {
+		return nil, false, fmt.Errorf("graph progress: %w", err)
+	}
+	rows, err := r.pool.Query(ctx, `
+		SELECT `+messageColumns+` FROM messages
+		WHERE conversation_id = $1 AND sequence_number > $2
+		ORDER BY sequence_number
+		LIMIT $3`, conv, through, limit+1)
+	if err != nil {
+		return nil, false, fmt.Errorf("query pending: %w", err)
+	}
+	defer rows.Close()
+	var out []memory.Message
+	for rows.Next() {
+		m, err := scanMessage(rows)
+		if err != nil {
+			return nil, false, err
+		}
+		out = append(out, m)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, false, err
+	}
+	more := len(out) > limit
+	if more {
+		out = out[:limit]
+	}
+	return out, more, nil
+}
+
+// AdvanceGraphProgress avance la position d'extraction, sans jamais la
+// reculer: un job en retard qui finit après un job plus récent ne doit pas
+// faire extraire une seconde fois ce que l'autre a déjà traité.
+func (r *MessageRepo) AdvanceGraphProgress(ctx context.Context, conv string, through int64) error {
+	_, err := r.pool.Exec(ctx, `UPDATE conversations
+		SET graph_extracted_seq = GREATEST(graph_extracted_seq, $2)
+		WHERE conversation_id = $1`, conv, through)
+	if err != nil {
+		return fmt.Errorf("advance graph progress: %w", err)
+	}
+	return nil
+}
+
+var _ memory.GraphProgress = (*MessageRepo)(nil)

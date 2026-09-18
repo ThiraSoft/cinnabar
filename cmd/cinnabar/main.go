@@ -204,7 +204,7 @@ func run(configPath string, runAPI, runWorkers bool) error {
 		// morte après jobs.retry_limit tentatives, sans bloquer la file ni
 		// les jobs embed qui continuent d'être traités normalement.
 		if cfg.Graph.Enabled {
-			handlers["graph_extract"] = jobs.GraphExtractHandler(cfg, msgs, graphRepo, extractor, embedder)
+			handlers["graph_extract"] = jobs.GraphExtractHandler(cfg, msgs, msgs, jobRepo, graphRepo, extractor, embedder)
 			handlers["graph_reeval"] = jobs.GraphReevalHandler(cfg, graphRepo)
 		}
 		runner := jobs.NewRunner(jobRepo, cfg.Jobs, handlers)

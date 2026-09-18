@@ -113,9 +113,11 @@ func (e *Extractor) convert(in memory.GraphExtractorInput,
 	// de cette fenêtre est écarté: la règle d'accès du graphe se dérive
 	// des sources, donc une source inventée rattacherait une relation à
 	// une conversation que le demandeur n'a pas le droit de lire.
-	allowed := map[uuid.UUID]bool{in.Message.MessageID: true}
-	for _, m := range in.Context {
+	allowed := map[uuid.UUID]bool{}
+	dates := map[uuid.UUID]time.Time{}
+	for _, m := range append(append([]memory.Message{}, in.Context...), in.Messages...) {
 		allowed[m.MessageID] = true
+		dates[m.MessageID] = m.CreatedAt
 	}
 
 	out := memory.GraphExtraction{
@@ -179,17 +181,18 @@ func (e *Extractor) convert(in memory.GraphExtractorInput,
 		// Validate écarte déjà toute relation qui porte à la fois une
 		// cible entité et un littéral (règle "exactement un des deux").
 
-		observed := parseTime(rr.ObservedAt)
-		if observed == nil {
-			// La date du message est la meilleure valeur par défaut, et
-			// c'est ce que la spec appelle observed_at en 4.8.
-			at := in.Message.CreatedAt
-			observed = &at
-		}
-
 		sources := filterSources(rr.SourceMessageIDs, allowed)
 		if len(sources) == 0 {
-			sources = []uuid.UUID{in.Message.MessageID}
+			sources = guessSources(in.Messages, displayName(out.Entities, source))
+		}
+
+		observed := parseTime(rr.ObservedAt)
+		if observed == nil {
+			// La date du message qui affirme le fait est la meilleure valeur
+			// par défaut, et c'est ce que la spec appelle observed_at en
+			// 4.8. Sur une fenêtre, c'est celle de sa première source.
+			at := dates[sources[0]]
+			observed = &at
 		}
 
 		rtype := NormalizeRelationType(rr.RelationType)
@@ -214,6 +217,36 @@ func (e *Extractor) convert(in memory.GraphExtractorInput,
 	}
 
 	return out.Validate()
+}
+
+// guessSources attribue un fait dont le modèle n'a cité aucune source
+// valide. Les messages de la fenêtre qui nomment le sujet du fait sont les
+// sources probables; à défaut, toute la fenêtre. Attribuer trop large garde
+// le fait en vie tant qu'un de ces messages existe, ce qui vaut mieux que de
+// le perdre: toutes ces sources sont de la même conversation, donc la règle
+// d'accès qui en dérive ne change pas.
+func guessSources(window []memory.Message, subject string) []uuid.UUID {
+	var named, all []uuid.UUID
+	needle := strings.ToLower(strings.TrimSpace(subject))
+	for _, m := range window {
+		all = append(all, m.MessageID)
+		if needle != "" && strings.Contains(strings.ToLower(m.Content), needle) {
+			named = append(named, m.MessageID)
+		}
+	}
+	if len(named) > 0 {
+		return named
+	}
+	return all
+}
+
+func displayName(ents []memory.GraphEntity, id uuid.UUID) string {
+	for _, e := range ents {
+		if e.EntityID == id {
+			return e.DisplayName
+		}
+	}
+	return ""
 }
 
 // pronounsAndDeterminers liste les mots qui ne sont jamais un alias
@@ -264,8 +297,8 @@ func cleanAliases(in []string) []string {
 	return out
 }
 
-// buildPrompt assemble l'entrée décrite en section 7.1: le message neuf,
-// son contexte immédiat, les identités de la conversation et les entités
+// buildPrompt assemble l'entrée décrite en section 7.1: les messages à
+// traiter, le contexte qui les précède, les identités de la conversation et les entités
 // candidates. Les identifiants des messages figurent en clair parce que le
 // modèle doit pouvoir les citer dans source_message_ids.
 func buildPrompt(in memory.GraphExtractorInput) string {
@@ -293,10 +326,12 @@ func buildPrompt(in memory.GraphExtractorInput) string {
 		}
 	}
 
-	b.WriteString("\nMessage à traiter:\n")
-	fmt.Fprintf(&b, "[%s] %s (%s): %s\n",
-		in.Message.MessageID, in.Message.AuthorKey,
-		in.Message.CreatedAt.UTC().Format(time.RFC3339), in.Message.Content)
+	b.WriteString("\nMessages à traiter:\n")
+	for _, m := range in.Messages {
+		fmt.Fprintf(&b, "[%s] %s (%s): %s\n",
+			m.MessageID, m.AuthorKey, m.CreatedAt.UTC().Format(time.RFC3339),
+			m.Content)
+	}
 
 	return b.String()
 }

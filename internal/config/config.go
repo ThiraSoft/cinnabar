@@ -152,8 +152,16 @@ type Graph struct {
 	// raisonner sur la chaîne. C'est là que la valeur du graphe se trouve,
 	// puisque répondre à une question à deux sauts demande un raisonnement
 	// que le critère 9 interdit sur le chemin de recherche.
-	FuseCandidates        bool     `yaml:"fuse_candidates"`
-	ContextMessages       int      `yaml:"context_messages"`
+	FuseCandidates  bool `yaml:"fuse_candidates"`
+	ContextMessages int  `yaml:"context_messages"`
+
+	// ExtractionBatch borne le nombre de messages soumis au modèle en un
+	// appel, et ExtractionIdle le délai d'inactivité de la conversation
+	// avant l'extraction. La conversation est extraite quand elle se tait
+	// ExtractionIdle, ou dès que ExtractionBatch messages attendent.
+	ExtractionBatch int           `yaml:"extraction_batch"`
+	ExtractionIdle  time.Duration `yaml:"extraction_idle"`
+
 	MaxHops               int      `yaml:"max_hops"`
 	SingleValuedRelations []string `yaml:"single_valued_relations"`
 }
@@ -307,6 +315,7 @@ func defaults() Config {
 			// interdit sur le chemin de recherche et que le modèle lecteur
 			// fait très bien si on lui donne la matière.
 			FuseCandidates: false, ContextMessages: 4, MaxHops: 2,
+			ExtractionBatch: 12, ExtractionIdle: 30 * time.Second,
 			SingleValuedRelations: []string{"a_pour_etat"},
 		},
 		Rerank: Rerank{
@@ -465,6 +474,12 @@ func (c *Config) validate() error {
 	}
 	if c.Graph.ContextMessages < 0 {
 		return fmt.Errorf("graph.context_messages must not be negative")
+	}
+	if c.Graph.ExtractionBatch < 1 {
+		return fmt.Errorf("graph.extraction_batch must be at least 1, got %d", c.Graph.ExtractionBatch)
+	}
+	if c.Graph.ExtractionIdle < 0 {
+		return fmt.Errorf("graph.extraction_idle must not be negative")
 	}
 	return nil
 }

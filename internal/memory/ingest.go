@@ -78,7 +78,8 @@ func (i *Ingester) Ingest(ctx context.Context, in AppendInput,
 		pending = append(pending, AppendJob{Type: "embed"})
 	}
 	if i.cfg.Graph.Enabled {
-		pending = append(pending, AppendJob{Type: "graph_extract"})
+		pending = append(pending, AppendJob{Type: "graph_extract",
+			Debounce: i.cfg.Graph.ExtractionIdle, FlushAfter: i.cfg.Graph.ExtractionBatch})
 	}
 
 	appended, err := i.msgs.Append(ctx, in, i.cfg.Indexing.PreviousMessages, pending)

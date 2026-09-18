@@ -33,11 +33,11 @@ func testInput() memory.GraphExtractorInput {
 	return memory.GraphExtractorInput{
 		WorkspaceID:    "ws1",
 		ConversationID: "conv1",
-		Message: memory.Message{
+		Messages: []memory.Message{{
 			MessageID: msgID, ConversationID: "conv1", Role: "user",
 			AuthorKey: "user:alice", Content: "Les tomates de Paul sont vertes.",
 			CreatedAt: time.Date(2026, 9, 9, 10, 0, 0, 0, time.UTC),
-		},
+		}},
 		Context: []memory.Message{{
 			MessageID: ctxID, ConversationID: "conv1", Role: "user",
 			AuthorKey: "user:alice", Content: "Paul jardine beaucoup.",
@@ -183,7 +183,7 @@ func TestExtractRejetteUneSourceHorsFenetre(t *testing.T) {
 			}
 		}
 		if len(r.SourceMessageIDs) != 1 ||
-			r.SourceMessageIDs[0] != testInput().Message.MessageID {
+			r.SourceMessageIDs[0] != testInput().Messages[0].MessageID {
 			t.Errorf("sources = %v, want [le message ancre]", r.SourceMessageIDs)
 		}
 	}
@@ -318,9 +318,9 @@ func TestExtractRetombeSurLaDateDuMessage(t *testing.T) {
 			"pas faire perdre la relation", len(got.Relations))
 	}
 	for _, r := range got.Relations {
-		if !r.ObservedAt.Equal(in.Message.CreatedAt) {
+		if !r.ObservedAt.Equal(in.Messages[0].CreatedAt) {
 			t.Errorf("observed_at = %v, want la date du message %v",
-				r.ObservedAt, in.Message.CreatedAt)
+				r.ObservedAt, in.Messages[0].CreatedAt)
 		}
 	}
 }
@@ -381,5 +381,79 @@ func TestExtractNettoieLesAliasDuModele(t *testing.T) {
 	}
 	if len(got.Entities[0].Aliases) != 1 {
 		t.Errorf("alias = %v, want le seul vrai alias", got.Entities[0].Aliases)
+	}
+}
+
+// fenetreDeDeux rend une entrée de deux messages à traiter, de dates
+// distinctes, pour distinguer le message qui affirme le fait des autres.
+func fenetreDeDeux() memory.GraphExtractorInput {
+	in := testInput()
+	in.Messages = append(in.Messages, memory.Message{
+		MessageID:      uuid.MustParse("aaaaaaaa-0000-0000-0000-000000000003"),
+		ConversationID: "conv1", Role: "user", AuthorKey: "user:alice",
+		Content:   "Claire a repeint son vélo en rouge.",
+		CreatedAt: time.Date(2026, 9, 9, 11, 0, 0, 0, time.UTC),
+	})
+	return in
+}
+
+// TestExtractDateLeFaitParSaSource: sur une fenêtre, la date par défaut
+// d'un fait est celle du message qu'il cite, pas celle du premier ou du
+// dernier message de la fenêtre.
+func TestExtractDateLeFaitParSaSource(t *testing.T) {
+	const reponse = `{
+	  "entities":[{"temp_id":"e1","entity_type":"person","display_name":"Claire",
+	    "canonical_key":null,"aliases":[],"resolved":true}],
+	  "relations":[{"source_temp_id":"e1","relation_type":"possede","target_temp_id":null,
+	     "target_literal":"vélo rouge","observed_at":null,"valid_from":null,
+	     "valid_until":null,"confidence":0.8,
+	     "source_message_ids":["aaaaaaaa-0000-0000-0000-000000000003"]}]}`
+	in := fenetreDeDeux()
+	got, err := NewExtractor(&fakeChat{reply: reponse}, config.Graph{}).Extract(context.Background(), in)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Relations) != 1 {
+		t.Fatalf("%d relations, want 1", len(got.Relations))
+	}
+	if want := in.Messages[1].CreatedAt; !got.Relations[0].ObservedAt.Equal(want) {
+		t.Errorf("observed_at = %v, want %v, la date du message cité", got.Relations[0].ObservedAt, want)
+	}
+}
+
+// TestExtractAttribueUnFaitSansSourceAuMessageQuiNommeSonSujet: un modèle
+// qui ne cite aucune source valide ne fait perdre ni le fait ni sa
+// traçabilité. Le fait va aux messages de la fenêtre qui nomment son sujet.
+func TestExtractAttribueUnFaitSansSourceAuMessageQuiNommeSonSujet(t *testing.T) {
+	const reponse = `{
+	  "entities":[{"temp_id":"e1","entity_type":"person","display_name":"Claire",
+	    "canonical_key":null,"aliases":[],"resolved":true}],
+	  "relations":[{"source_temp_id":"e1","relation_type":"possede","target_temp_id":null,
+	     "target_literal":"vélo rouge","observed_at":null,"valid_from":null,
+	     "valid_until":null,"confidence":0.8,
+	     "source_message_ids":["pas-un-uuid","bbbbbbbb-0000-0000-0000-000000000009"]}]}`
+	in := fenetreDeDeux()
+	got, err := NewExtractor(&fakeChat{reply: reponse}, config.Graph{}).Extract(context.Background(), in)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Relations) != 1 {
+		t.Fatalf("%d relations, want 1", len(got.Relations))
+	}
+	src := got.Relations[0].SourceMessageIDs
+	if len(src) != 1 || src[0] != in.Messages[1].MessageID {
+		t.Errorf("sources = %v, want [%s], le seul message qui nomme Claire", src, in.Messages[1].MessageID)
+	}
+}
+
+// TestPromptListeTousLesMessagesATraiter: chaque message de la fenêtre doit
+// figurer avec son identifiant, sans quoi le modèle ne peut pas le citer.
+func TestPromptListeTousLesMessagesATraiter(t *testing.T) {
+	in := fenetreDeDeux()
+	p := buildPrompt(in)
+	for _, m := range in.Messages {
+		if !strings.Contains(p, m.MessageID.String()) || !strings.Contains(p, m.Content) {
+			t.Errorf("le prompt ne contient pas le message %s", m.MessageID)
+		}
 	}
 }

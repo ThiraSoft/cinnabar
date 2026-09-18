@@ -143,14 +143,21 @@ func (e GraphExtraction) Validate() GraphExtraction {
 	return out
 }
 
-// GraphExtractorInput porte ce que l'extracteur reçoit: le message neuf,
-// son contexte immédiat, les identités de la conversation et les entités
-// déjà connues du workspace qui pourraient correspondre. L'extracteur ne
-// rescanne jamais la conversation entière (section 7.1 de la spec).
+// GraphExtractorInput porte ce que l'extracteur reçoit: la fenêtre de
+// messages pas encore extraits, les quelques messages qui la précèdent, les
+// identités de la conversation et les entités déjà connues du workspace qui
+// pourraient correspondre. L'extracteur ne rescanne jamais la conversation
+// entière (section 7.1 de la spec).
+//
+// Messages n'est jamais vide et suit l'ordre de la conversation. Un appel
+// par fenêtre plutôt que par message: chaque message n'est lu qu'une fois
+// comme message à traiter, au lieu de l'être à nouveau dans le contexte de
+// ses successeurs, et le modèle n'émet qu'une fois les entités que la
+// fenêtre partage.
 type GraphExtractorInput struct {
 	WorkspaceID       string
 	ConversationID    string
-	Message           Message
+	Messages          []Message
 	Context           []Message
 	Participants      []string
 	CandidateEntities []GraphEntity
@@ -178,4 +185,23 @@ type GraphRepo interface {
 	// invalidated_at, puis les chaînes de validité des couples touchés
 	// sont recalculées.
 	Reevaluate(ctx context.Context, messageID uuid.UUID, singleValued []string) error
+}
+
+// GraphProgress suit, par conversation, jusqu'où le graphe a été extrait.
+// La position est un numéro de séquence: tout message de séquence
+// inférieure ou égale a déjà été soumis à l'extracteur.
+type GraphProgress interface {
+	// GraphPending rend au plus limit messages après la position courante,
+	// supprimés compris pour que la position puisse les dépasser, et dit
+	// s'il en reste au-delà.
+	GraphPending(ctx context.Context, conversationID string, limit int) (msgs []Message, more bool, err error)
+
+	// AdvanceGraphProgress avance la position, sans jamais la reculer.
+	AdvanceGraphProgress(ctx context.Context, conversationID string, through int64) error
+}
+
+// GraphScheduler pose, ou avance à maintenant, le job d'extraction en
+// attente d'une conversation.
+type GraphScheduler interface {
+	ScheduleGraphExtract(ctx context.Context, workspaceID, conversationID string) error
 }
