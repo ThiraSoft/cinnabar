@@ -1,0 +1,124 @@
+# Binaires pour un tag. Tout ce qui est ici, `go build` le donne déjà: le
+# workflow ne fait que croiser les cibles et attacher les archives, pour
+# qu'on puisse lancer le service sans chaîne Go.
+#
+# Windows est absent parce qu'il ne compile pas: le Vulkan de golem, utilisé
+# pour les embeddings en processus, n'y a pas de chargeur. Une archive
+# cassée serait pire qu'aucune.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'tag existant à construire et à publier'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { goos: linux,  goarch: amd64 }
+          - { goos: linux,  goarch: arm64 }
+          - { goos: darwin, goarch: amd64 }
+          - { goos: darwin, goarch: arm64 }
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+
+      # CGO_ENABLED=0: un binaire lié à la libc cesse de tourner sur une
+      # glibc plus ancienne que celle de la machine de build.
+      - name: build
+        env:
+          CGO_ENABLED: '0'
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          dir="cinnabar_${TAG}_${GOOS}_${GOARCH}"
+          mkdir -p "dist/${dir}"
+          go build -trimpath \
+            -ldflags "-s -w \
+              -X github.com/ThiraSoft/cinnabar/internal/version.Version=${TAG} \
+              -X github.com/ThiraSoft/cinnabar/internal/version.Commit=$(git rev-parse --short HEAD) \
+              -X github.com/ThiraSoft/cinnabar/internal/version.BuildDate=$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            -o "dist/${dir}/cinnabar" ./cmd/cinnabar
+          cp README.md config.example.yaml "dist/${dir}/"
+          tar -C dist -czf "dist/${dir}.tar.gz" "${dir}"
+
+      # Le runner est linux/amd64: il lance ce binaire-là, les trois autres
+      # sont pris sur la foi de celui-ci et de la même chaîne.
+      - name: smoke
+        if: matrix.goos == 'linux' && matrix.goarch == 'amd64'
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          "dist/cinnabar_${TAG}_linux_amd64/cinnabar" -version
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cinnabar_${{ matrix.goos }}_${{ matrix.goarch }}
+          path: dist/*.tar.gz
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: checksums
+        run: |
+          set -euo pipefail
+          cd dist
+          sha256sum *.tar.gz > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          notes=$(mktemp)
+          {
+            echo "Binaires statiques, sans cgo. Décompresser et lancer :"
+            echo
+            echo '```'
+            echo "tar xzf cinnabar_${TAG}_linux_amd64.tar.gz"
+            echo "cd cinnabar_${TAG}_linux_amd64"
+            echo "cp config.example.yaml config.yaml"
+            echo "./cinnabar -config config.yaml"
+            echo '```'
+            echo
+            echo "Il faut PostgreSQL avec pgvector, et un modèle d'embedding : un endpoint"
+            echo "compatible OpenAI, ou le GGUF de nomic-embed-text-v2-moe chargé en processus"
+            echo "par golem. Le README donne le détail."
+            echo
+            echo "Vérifier avec \`sha256sum -c SHA256SUMS\`."
+          } > "$notes"
+          gh release create "$TAG" dist/*.tar.gz dist/SHA256SUMS \
+            --title "$TAG" \
+            --notes-file "$notes" \
+            --verify-tag \
+            || gh release upload "$TAG" dist/*.tar.gz dist/SHA256SUMS --clobber

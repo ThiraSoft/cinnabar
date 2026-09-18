@@ -1,0 +1,21 @@
+# La suite qu'une machine sans PostgreSQL peut faire tourner: les tests
+# d'intégration sautent quand POSTGRES_TEST_DSN est absent. Ce qui reste
+# garde le domaine, la configuration, l'API et les clients de modèle.
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+      - run: go build ./...
+      - run: go vet ./...
+      - run: go test ./...
