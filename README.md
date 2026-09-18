@@ -33,6 +33,29 @@ les identités entre tenants.
 - **Simple à opérer** : un binaire Go et PostgreSQL. Les migrations
   tournent au démarrage.
 
+## Mesures
+
+Sur LoCoMo, le banc public de Mem0, Zep, Letta et MemPalace : 10
+conversations, 5 882 messages, 1 986 questions. Face à
+[MemPalace](https://github.com/MemPalace/mempalace), mesuré avec ses propres
+scripts, qui retombent sur ses chiffres publiés. Rappel des sessions qui
+contiennent la preuve, la métrique que MemPalace publie.
+
+| Système | R@5 | R@10 | Texte rendu à k=10 |
+|---|---|---|---|
+| MemPalace, recherche vectorielle | 46,2 % | 60,3 % | ~7 500 tokens |
+| MemPalace, hybride | 78,4 % | 89,2 % | ~7 500 tokens |
+| **Cinnabar, sans modèle** | **85,0 %** | **91,4 %** | ~2 400 tokens |
+| Cinnabar + rerank | 89,1 % | 92,1 % | ~2 400 tokens |
+| Cinnabar + graphe + rerank, faits compris | 92,8 % | 95,0 % | ~2 800 tokens |
+
+Au niveau des tours de dialogue, Cinnabar sans modèle retrouve 88,0 % des
+preuves à k=10, contre 58,6 % pour MemPalace hybride.
+
+Le graphe et le rerank tournent ici sur `gemma-4-12B-it` quantifié en 4 bits,
+en local. LongMemEval, ConvoMem et MemBench sont en cours. Conditions,
+variantes et réserves : [docs/evals/2026-09-18-bancs-mempalace.md](docs/evals/2026-09-18-bancs-mempalace.md).
+
 ## Démarrage rapide
 
 Prérequis : Go 1.25, Docker, et un serveur d'embedding compatible OpenAI
