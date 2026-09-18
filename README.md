@@ -53,8 +53,7 @@ Au niveau des tours de dialogue, Cinnabar sans modèle retrouve 88,0 % des
 preuves à k=10, contre 58,6 % pour MemPalace hybride.
 
 Le graphe et le rerank tournent ici sur `gemma-4-12B-it` quantifié en 4 bits,
-en local. LongMemEval, ConvoMem et MemBench sont en cours. Conditions,
-variantes et réserves : [docs/evals/2026-09-18-bancs-mempalace.md](docs/evals/2026-09-18-bancs-mempalace.md).
+en local. Conditions, variantes et réserves : [docs/evals/2026-09-18-bancs-mempalace.md](docs/evals/2026-09-18-bancs-mempalace.md).
 
 ## Démarrage rapide
 

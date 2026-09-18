@@ -6,8 +6,9 @@ note mesure Cinnabar sur les mêmes données, découpées comme dans leurs scrip
 et notées avec leurs métriques, et en tire les réglages par défaut sans modèle
 de langage.
 
-Seul LoCoMo est complet à ce jour. Les trois autres bancs suivront dans cette
-note.
+Seul LoCoMo a été mesuré jusqu'au bout. Le harnais sait aussi rejouer
+LongMemEval, ConvoMem et MemBench, mais ces bancs n'ont pas été menés à
+terme.
 
 ## Conditions
 
