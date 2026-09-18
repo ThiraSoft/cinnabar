@@ -71,8 +71,10 @@ retrieval:
   dense_top_k: 20
   lexical_top_k: 20
   graph_top_k: 20
-  final_top_k: 5
-  max_memory_tokens: 1200
+  # Mesuré sur LoCoMo: de 5 à 8 extraits, +4 à 5 points de rappel ; de 8 à
+  # 10, moins de 1,5. 1 200 tokens tronquaient déjà 5 extraits en moyenne.
+  final_top_k: 8
+  max_memory_tokens: 2000
   expand_before: 2
   expand_after: 2
   rrf_k: 60
@@ -94,11 +96,11 @@ retrieval:
   # distance cosinus. Contrairement à minimum_score ci-dessus, cette grandeur
   # garde son sens hors de son classement.
   #
-  # Sans lui, une question à laquelle rien ne répond rend quand même
-  # final_top_k souvenirs. 0.52 est le centre du plateau mesuré sur le corpus
-  # d'évaluation ([0.50 ; 0.55] donne 14/14) ; à recalibrer par corpus, voir
-  # docs/evals/. null restaure le comportement d'avant.
-  minimum_dense_score: 0.52
+  # Il n'écarte que les voisins vraiment lointains. Une similarité cosinus
+  # absolue dépend de la langue et du corpus : 0.52, calé sur le corpus
+  # français, coûtait 3,5 points de rappel sur LoCoMo, 0.45 en coûte 0,2.
+  # Se relève sur un corpus mesuré, voir docs/evals/. null ne filtre rien.
+  minimum_dense_score: 0.45
   # Détection d'une question à laquelle rien ne répond dans ce workspace.
   # Les candidats du dense sont écartés en bloc quand son meilleur candidat
   # est à la fois lointain (sous no_answer_best_below) et noyé dans un
@@ -107,11 +109,14 @@ retrieval:
   # marge ne séparent seules, et une question qui a une réponse présente
   # toujours au moins l'un des deux signes.
   #
-  # Mesuré sur le corpus d'évaluation: ferme trois des quatre questions sans
-  # réponse sans coûter une seule vraie réponse. Mettre l'un des deux à null
-  # désactive la détection. Voir docs/evals/.
-  no_answer_best_below: 0.58
-  no_answer_margin_below: 0.05
+  # Désactivée par défaut. Sur le corpus français, 0.58 et 0.05 ferment trois
+  # des quatre questions sans réponse sans coûter une vraie réponse ; sur
+  # LoCoMo, les mêmes seuils écartent 300 questions qui ont une réponse et
+  # coûtent 10 points. Aucun couple de seuils ne sert les deux corpus. À
+  # activer après avoir mesuré les deux distributions sur son propre corpus,
+  # voir docs/guide.md.
+  no_answer_best_below: null
+  no_answer_margin_below: null
 
 graph:
   # Reste à false par défaut : l'activer suppose un extraction.base_url
@@ -175,7 +180,7 @@ rerank:
   enabled: false
   # Doit dépasser final_top_k, sinon il n'y a rien à réordonner. Au-delà de
   # deux fois final_top_k il n'y a plus de marge, seulement du coût.
-  pool: 10
+  pool: 16
   base_url: "${LLM_API_URL}"
   model: "google/gemma-4-31B-it"
   api_key: "${LLM_API_KEY}"

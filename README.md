@@ -20,8 +20,9 @@ les identités entre tenants.
 - **Recherche hybride** : vectorielle (pgvector), lexicale et, en option, par
   graphe de connaissances. Les résultats sont fusionnés puis éventuellement
   réordonnés par un modèle.
-- **Sait se taire** : quand rien dans le workspace ne répond à la question,
-  la recherche peut ne rien rendre plutôt qu'un voisin lointain.
+- **Peut se taire** : un plancher de pertinence écarte les voisins
+  lointains, et une détection de question sans réponse, à calibrer sur son
+  corpus, peut ne rien rendre plutôt qu'un voisin lointain.
 - **Visibilité fine** : scopes par conversation (`participants`, `workspace`,
   `private`, `explicit`), ACL par souvenir, suppression immédiate.
 - **Cohérence au choix** : l'écriture peut attendre que le message soit

@@ -41,8 +41,18 @@ extraction:
 	if cfg.Retrieval.RRFK != 60 {
 		t.Errorf("rrf_k default = %d, want 60", cfg.Retrieval.RRFK)
 	}
-	if cfg.Retrieval.FinalTopK != 5 {
-		t.Errorf("final_top_k default = %d, want 5", cfg.Retrieval.FinalTopK)
+	if cfg.Retrieval.FinalTopK != 8 {
+		t.Errorf("final_top_k default = %d, want 8", cfg.Retrieval.FinalTopK)
+	}
+	if cfg.Retrieval.MaxMemoryTokens != 2000 {
+		t.Errorf("max_memory_tokens default = %d, want 2000", cfg.Retrieval.MaxMemoryTokens)
+	}
+	if cfg.Retrieval.NoAnswerBestBelow != nil || cfg.Retrieval.NoAnswerMarginBelow != nil {
+		t.Error("la détection de non-réponse doit être désactivée par défaut")
+	}
+	if cfg.Rerank.Pool <= cfg.Retrieval.FinalTopK {
+		t.Errorf("rerank.pool default = %d, doit dépasser final_top_k = %d",
+			cfg.Rerank.Pool, cfg.Retrieval.FinalTopK)
 	}
 	if cfg.Indexing.MaxChars != 1600 {
 		t.Errorf("max_chars default = %d, want 1600", cfg.Indexing.MaxChars)

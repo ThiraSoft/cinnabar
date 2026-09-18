@@ -247,39 +247,35 @@ func defaults() Config {
 			IndexSystemMessages: false, IndexToolMessages: false, Version: 1,
 		},
 		Retrieval: Retrieval{
-			DenseTopK: 20, LexicalTopK: 20, GraphTopK: 20, FinalTopK: 5,
-			MaxMemoryTokens: 1200, ExpandBefore: 2, ExpandAfter: 2, RRFK: 60,
-			// Le plancher de pertinence est actif par défaut, contrairement
-			// à MinimumScore qui reste nil parce qu'il porte sur la mauvaise
-			// grandeur. Sans lui, une question à laquelle rien du workspace
-			// ne répond rend quand même final_top_k souvenirs, que
-			// l'appelant injectera dans un prompt: le dense n'a pas de
-			// plancher naturel, il rend ses voisins les plus proches aussi
-			// loin soient-ils.
+			// Huit extraits dans 2 000 tokens: mesuré sur LoCoMo (1 986
+			// questions), passer de 5 à 8 extraits gagne 4 à 5 points de
+			// rappel, de 8 à 10 moins de 1,5. Un budget de 1 200 tokens
+			// tronque déjà 5 extraits en moyenne et coûte 4 à 5 points dès
+			// 8. Voir docs/evals/2026-09-18-bancs-mempalace.md.
+			DenseTopK: 20, LexicalTopK: 20, GraphTopK: 20, FinalTopK: 8,
+			MaxMemoryTokens: 2000, ExpandBefore: 2, ExpandAfter: 2, RRFK: 60,
+			// Le plancher de pertinence reste actif, contrairement à
+			// MinimumScore qui reste nil parce qu'il porte sur la mauvaise
+			// grandeur. Il n'écarte que les voisins vraiment lointains.
 			//
-			// 0,52 est le centre du plateau mesuré sur le corpus
-			// d'évaluation, où [0,50 ; 0,55] donne 14/14 tandis que 0,45
-			// laisse fuir deux questions sans réponse et 0,60 en perd une
-			// vraie. C'est une calibration sur quatorze requêtes et un seul
-			// modèle d'embedding: à recalibrer par corpus, la commande est
-			// dans docs/evals/. Mettre null restaure le
-			// comportement d'avant, qui répond toujours quelque chose.
-			MinimumDenseScore: float64Ptr(0.52),
-			// Détection d'une question sans réponse, active par défaut.
-			// Les deux conditions doivent être réunies, et c'est ce qui la
-			// rend sûre: mesuré sur le corpus d'évaluation, elle ferme
-			// trois des quatre questions sans réponse sans coûter une
-			// seule vraie réponse, et fait passer le rappel global de 74 %
-			// à 78 %.
-			//
-			// Une variante plus agressive (marge sous 0,07) ferme la
-			// quatrième mais perd une requête à terme rare. Elle n'est pas
-			// retenue: une négative qui passe rend du bruit avec un score
-			// honnêtement bas, une vraie réponse perdue est une absence
-			// silencieuse, et le second défaut est plus grave que le
-			// premier.
-			NoAnswerBestBelow:   float64Ptr(0.58),
-			NoAnswerMarginBelow: float64Ptr(0.05),
+			// 0,45 et non plus 0,52: le premier calage, sur 46 questions en
+			// français, plaçait le plateau à 0,52, mais sur LoCoMo cette
+			// valeur coûte 3,5 points de rappel quand 0,45 n'en coûte que
+			// 0,2. Une similarité cosinus absolue dépend de la langue et du
+			// corpus: la valeur par défaut doit rester basse, et se relever
+			// sur un corpus mesuré. Null rend toujours quelque chose.
+			MinimumDenseScore: float64Ptr(0.45),
+			// Détection d'une question sans réponse, désactivée par défaut.
+			// Sur le corpus français elle ferme trois des quatre questions
+			// sans réponse, mais sur LoCoMo, avec les mêmes seuils, elle
+			// écarte 300 questions qui ont une réponse et coûte 10 points
+			// de rappel. Aucun couple de seuils ne sert les deux corpus: les
+			// négatives françaises ont un meilleur score entre 0,49 et
+			// 0,56, et 10 % des questions LoCoMo qui ont une réponse sont
+			// sous 0,554. À activer sur un corpus dont on a mesuré les
+			// deux distributions, voir docs/guide.md.
+			NoAnswerBestBelow:   nil,
+			NoAnswerMarginBelow: nil,
 		},
 		Graph: Graph{
 			// false par défaut, et ça reste vrai maintenant que la couche
@@ -315,7 +311,7 @@ func defaults() Config {
 			// valeurs ci-dessous ne servent qu'à ce qu'un rerank.enabled
 			// posé seul dans un fichier de configuration fonctionne.
 			Enabled: false,
-			Pool:    10,
+			Pool:    16,
 			Timeout: 5 * time.Second,
 		},
 		Access: Access{DefaultScope: "participants"},
