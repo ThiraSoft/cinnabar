@@ -6,32 +6,35 @@ Cinnabar, voir le [README](../README.md).
 ## Ce que rend une recherche
 
 Deux dispositifs permettent à une recherche de **ne rien rendre du tout**
-quand rien dans le workspace ne répond à la question, ce qui est le
-comportement attendu d'un service qui alimente un prompt.
+quand rien dans le workspace ne répond à la question.
 
-`retrieval.minimum_dense_score`, à 0,52 par défaut, écarte les candidats de
-la stratégie dense dont la similarité cosinus tombe en dessous.
+`retrieval.minimum_dense_score`, à 0,45 par défaut, écarte les candidats de
+la stratégie dense dont la similarité cosinus tombe en dessous. La valeur
+est basse exprès : elle n'écarte que les voisins vraiment lointains.
 
-`retrieval.no_answer_best_below` et `no_answer_margin_below`, à 0,58 et 0,05,
-écartent les candidats du dense **en bloc** quand son meilleur candidat est à
-la fois lointain et noyé dans un voisinage plat. La conjonction des deux
-conditions est le coeur du dispositif : mesuré sur le corpus d'évaluation, ni
-la similarité absolue ni la marge ne séparent seules une question sans réponse
-d'une question qui en a une, et une question qui a une réponse présente
-toujours au moins l'un des deux signes. Ça ferme trois des quatre questions
-sans réponse du corpus sans coûter une seule vraie réponse.
+`retrieval.no_answer_best_below` et `no_answer_margin_below`, **désactivés
+par défaut**, écartent les candidats du dense **en bloc** quand son meilleur
+candidat est à la fois lointain et noyé dans un voisinage plat. Sur le corpus
+d'évaluation français, 0,58 et 0,05 ferment trois des quatre questions sans
+réponse sans coûter une seule vraie réponse. Sur LoCoMo, en anglais, les
+mêmes seuils écartent 300 questions qui ont une réponse et font perdre 10
+points de rappel : une similarité cosinus absolue dépend de la langue et du
+corpus, et aucun couple de seuils ne sert les deux.
+
+Pour l'activer, mesurer d'abord sur son propre corpus la forme du voisinage
+dense (`service.debug_search: true` rend `dense_best` et `dense_median`) de
+questions qui ont une réponse et de questions qui n'en ont pas, puis choisir
+des seuils qui séparent les deux. `make eval` imprime cette forme pour le
+corpus d'évaluation.
 
 Les deux ne filtrent que le dense : une correspondance lexicale et un fait du
 graphe restent des preuves de pertinence par elles-mêmes. C'est délibéré, et
 c'est aussi pour ça que la stratégie lexicale ne cherche pas à répondre à
 tout : son silence est une information.
 
-Mettre `minimum_dense_score` à `null`, ou l'un des deux seuils de non-réponse,
-restaure le comportement décrit ci-dessous, où le service répond toujours
-quelque chose. Les valeurs sont calibrées sur le corpus d'évaluation, 272
-messages et un seul modèle d'embedding : elles sont à refaire sur un corpus
-réel, et `docs/evals/` donne la commande et les distributions
-mesurées.
+Mettre `minimum_dense_score` à `null` restaure le comportement décrit
+ci-dessous, où le service répond toujours quelque chose. Les mesures qui
+fondent ces défauts sont dans `docs/evals/2026-09-18-bancs-mempalace.md`.
 
 Sans plancher, et c'est aussi le cas de `retrieval.minimum_score` qui reste
 `null` parce qu'il porte sur la mauvaise grandeur,
