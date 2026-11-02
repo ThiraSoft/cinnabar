@@ -84,3 +84,16 @@ for label, v, col in rows:
 c += text("1 986 questions, 10 conversations", cx + 26, cy + ch - 22, 13, "Regular", MUTED)[0]
 save("linkedin-cover.svg", svg(W, H, c, "Cinnabar"))
 print("ok")
+
+# thumbnail for LinkedIn "Featured" and link previews, 1200x627 (1.91:1)
+W, H = 1200, 627
+t = f'<rect width="{W}" height="{H}" fill="{BG}"/>'
+t += f'<g opacity="0.06">{crystal(930, 250, 560, WHITE)}</g>'
+t += crystal(150, 150, 300)
+t += word(470, 268, 108)
+t += text("Mémoire hybride", 476, 334, 30, "Medium", SOFT)[0]
+t += text("pour agents conversationnels.", 476, 374, 30, "Medium", SOFT)[0]
+p, x = text("92,8 %", 476, 452, 44, "ExtraBold", "#FF7A5C")
+t += p + text("R@5 sur LoCoMo", x + 16, 452, 24, "Regular", MUTED)[0]
+save("thumbnail.svg", svg(W, H, t, "Cinnabar : mémoire hybride pour agents conversationnels"))
+print("thumbnail ok")
