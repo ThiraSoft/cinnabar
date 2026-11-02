@@ -1,11 +1,5 @@
 <p align="center">
-  <img src="docs/assets/logo.svg" alt="Cinnabar" width="112">
-</p>
-
-<h1 align="center">Cinnabar</h1>
-
-<p align="center">
-  Mémoire hybride pour agents conversationnels.
+  <img src="docs/assets/banner.svg" alt="Cinnabar : mémoire hybride pour agents conversationnels" width="760">
 </p>
 
 ---
